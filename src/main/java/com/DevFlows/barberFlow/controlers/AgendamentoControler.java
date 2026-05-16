@@ -1,5 +1,4 @@
 package com.DevFlows.barberFlow.controlers;
-
 import com.DevFlows.barberFlow.Entity.Agendamento.StatusAgendamento;
 import com.DevFlows.barberFlow.Service.AgendamentoService;
 import com.DevFlows.barberFlow.dto.AgendamentoRequestDTO;
@@ -9,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
