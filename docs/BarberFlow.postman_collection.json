@@ -1,0 +1,646 @@
+{
+  "info": {
+    "_postman_id": "c7bb82a8-298d-4afd-934f-2cb0dc7c97d8",
+    "name": "BarberFlow API",
+    "description": "Colecao pronta da API BarberFlow (Barbeiros, Clientes, Horarios e Agendamentos).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Barbeiros",
+      "item": [
+        {
+          "name": "Criar Barbeiro",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201/200', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "var data = pm.response.json();",
+                  "if (data && data.id) {",
+                  "  pm.collectionVariables.set('barbeiroId', String(data.id));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": null,\n  \"nome\": \"{{nomeBarbeiro}}\",\n  \"especialidade\": \"{{especialidadeBarbeiro}}\",\n  \"telefone\": \"{{telefoneBarbeiro}}\",\n  \"senha\": \"{{senhaBarbeiro}}\",\n  \"cpf\": \"{{cpfBarbeiro}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/barbeiros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "barbeiros"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Barbeiro por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/barbeiros/{{barbeiroId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "barbeiros",
+                "{{barbeiroId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Barbeiros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/barbeiros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "barbeiros"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Barbeiro",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": {{barbeiroId}},\n  \"nome\": \"{{nomeBarbeiroAtualizado}}\",\n  \"especialidade\": \"{{especialidadeBarbeiroAtualizada}}\",\n  \"telefone\": \"{{telefoneBarbeiro}}\",\n  \"senha\": \"{{senhaBarbeiro}}\",\n  \"cpf\": \"{{cpfBarbeiro}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/barbeiros/{{barbeiroId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "barbeiros",
+                "{{barbeiroId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Barbeiro",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/barbeiros/{{barbeiroId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "barbeiros",
+                "{{barbeiroId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "Criar Cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201/200', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "var data = pm.response.json();",
+                  "if (data && data.id) {",
+                  "  pm.collectionVariables.set('clienteId', String(data.id));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"{{nomeCliente}}\",\n  \"telefone\": \"{{telefoneCliente}}\",\n  \"senha\": \"{{senhaCliente}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Cliente por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clientes/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes",
+                "{{clienteId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Clientes por Busca",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clientes?busca={{buscaCliente}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes"
+              ],
+              "query": [
+                {
+                  "key": "busca",
+                  "value": "{{buscaCliente}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Cliente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"{{nomeClienteAtualizado}}\",\n  \"telefone\": \"{{telefoneCliente}}\",\n  \"senha\": \"{{senhaCliente}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/clientes/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes",
+                "{{clienteId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Cliente",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/clientes/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "clientes",
+                "{{clienteId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Horarios",
+      "item": [
+        {
+          "name": "Cadastrar Horario Disponivel",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201/200', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "var data = pm.response.json();"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"barbeiroid\": {{barbeiroId}},\n  \"data\": \"{{dataAgendamento}}\",\n  \"hora\": \"{{horaHorario}}\",\n  \"disponivel\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/Horarios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Horarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Horarios Disponiveis",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/Horarios/disponiveis?barbeiroId={{barbeiroId}}&data={{dataAgendamento}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Horarios",
+                "disponiveis"
+              ],
+              "query": [
+                {
+                  "key": "barbeiroId",
+                  "value": "{{barbeiroId}}"
+                },
+                {
+                  "key": "data",
+                  "value": "{{dataAgendamento}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Agendamentos",
+      "item": [
+        {
+          "name": "Criar Agendamento",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201/200', function () {",
+                  "  pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "var data = pm.response.json();",
+                  "if (data && data.id) {",
+                  "  pm.collectionVariables.set('agendamentoId', String(data.id));",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomeCliente\": \"{{nomeClienteAtualizado}}\",\n  \"telefoneCliente\": \"{{telefoneCliente}}\",\n  \"telefoneBarbeiro\": \"{{telefoneBarbeiro}}\",\n  \"data\": \"{{dataAgendamento}}\",\n  \"hora\": \"{{horaAgendamento}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/agendamentos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agendamentos"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Agendamento por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agendamentos/{{agendamentoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agendamentos",
+                "{{agendamentoId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Agendamentos por Telefone do Barbeiro",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agendamentos/barbeiro/buscar?telefoneBarbeiro={{telefoneBarbeiro}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agendamentos",
+                "barbeiro",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "telefoneBarbeiro",
+                  "value": "{{telefoneBarbeiro}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Listar Agendamentos Ativos do Barbeiro",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agendamentos/barbeiro/listar?telefoneBarbeiro={{telefoneBarbeiro}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agendamentos",
+                "barbeiro",
+                "listar"
+              ],
+              "query": [
+                {
+                  "key": "telefoneBarbeiro",
+                  "value": "{{telefoneBarbeiro}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancelar Agendamento por Barbeiro",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agendamentos/{{agendamentoId}}/cancelar/barbeiro?senhaBarbeiro={{senhaBarbeiro}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agendamentos",
+                "{{agendamentoId}}",
+                "cancelar",
+                "barbeiro"
+              ],
+              "query": [
+                {
+                  "key": "senhaBarbeiro",
+                  "value": "{{senhaBarbeiro}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancelar Agendamento por Cliente",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agendamentos/{{agendamentoId}}/cancelar/cliente?senhaCliente={{senhaCliente}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agendamentos",
+                "{{agendamentoId}}",
+                "cancelar",
+                "cliente"
+              ],
+              "query": [
+                {
+                  "key": "senhaCliente",
+                  "value": "{{senhaCliente}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Concluir Agendamento",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/agendamentos/{{agendamentoId}}/concluir?senhaBarbeiro={{senhaBarbeiro}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "agendamentos",
+                "{{agendamentoId}}",
+                "concluir"
+              ],
+              "query": [
+                {
+                  "key": "senhaBarbeiro",
+                  "value": "{{senhaBarbeiro}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "barbeiroId",
+      "value": ""
+    },
+    {
+      "key": "clienteId",
+      "value": ""
+    },
+    {
+      "key": "agendamentoId",
+      "value": ""
+    },
+    {
+      "key": "nomeBarbeiro",
+      "value": "Barbeiro Postman"
+    },
+    {
+      "key": "nomeBarbeiroAtualizado",
+      "value": "Barbeiro Postman Atualizado"
+    },
+    {
+      "key": "especialidadeBarbeiro",
+      "value": "Fade"
+    },
+    {
+      "key": "especialidadeBarbeiroAtualizada",
+      "value": "Degrade"
+    },
+    {
+      "key": "telefoneBarbeiro",
+      "value": "11999990001"
+    },
+    {
+      "key": "cpfBarbeiro",
+      "value": "12345678900"
+    },
+    {
+      "key": "senhaBarbeiro",
+      "value": "senhaB"
+    },
+    {
+      "key": "nomeCliente",
+      "value": "Cliente Postman"
+    },
+    {
+      "key": "nomeClienteAtualizado",
+      "value": "Cliente Postman Atualizado"
+    },
+    {
+      "key": "telefoneCliente",
+      "value": "11988880001"
+    },
+    {
+      "key": "senhaCliente",
+      "value": "senhaC"
+    },
+    {
+      "key": "buscaCliente",
+      "value": "Postman"
+    },
+    {
+      "key": "dataAgendamento",
+      "value": "2026-12-31"
+    },
+    {
+      "key": "horaHorario",
+      "value": "08:00:00"
+    },
+    {
+      "key": "horaAgendamento",
+      "value": "09:00:00"
+    }
+  ]
+}

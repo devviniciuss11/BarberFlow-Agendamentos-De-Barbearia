@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "horariosDisponiveis")
+@Table(name = "horarios_disponiveis")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,7 +15,7 @@ import java.time.LocalTime;
 
 public class HorarioDisponivel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

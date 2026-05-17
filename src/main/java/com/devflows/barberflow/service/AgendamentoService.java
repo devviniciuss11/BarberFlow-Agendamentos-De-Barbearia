@@ -5,9 +5,11 @@ import com.devflows.barberflow.dto.AgendamentoResponseDTO;
 import com.devflows.barberflow.entity.Agendamento;
 import com.devflows.barberflow.entity.Barbeiro;
 import com.devflows.barberflow.entity.Cliente;
+import com.devflows.barberflow.entity.HorarioDisponivel;
 import com.devflows.barberflow.repositorys.AgendamentoRepository;
 import com.devflows.barberflow.repositorys.BarbeiroRepository;
 import com.devflows.barberflow.repositorys.ClienteRepository;
+import com.devflows.barberflow.repositorys.HorarioDisponivelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,10 +24,15 @@ public class AgendamentoService {
     private final AgendamentoRepository agendamentoRepository;
     private final ClienteRepository clienteRepository;
     private final BarbeiroRepository barbeiroRepository;
+    private final HorarioDisponivelRepository horarioDisponivelRepository;
 
     public AgendamentoResponseDTO agendar(AgendamentoRequestDTO dto) {
         Cliente cliente = buscarClientePorNomeTelefone(dto.nomeCliente(), dto.telefoneCliente());
         Barbeiro barbeiro = buscarBarbeiroPorTelefone(dto.telefoneBarbeiro());
+        HorarioDisponivel horarioDisponivel = horarioDisponivelRepository
+                .findByBarbeiroIdAndDataAndHoraAndDisponivelTrue(barbeiro.getId(), dto.data(), dto.hora())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.CONFLICT,
+                        "Barbeiro nao possui horario disponivel cadastrado para esta data e horario."));
 
         boolean horarioOcupado = agendamentoRepository.existsByBarbeiroIdAndDataAndHorarioAndCanceladoFalse(
                 barbeiro.getId(),
@@ -47,7 +54,11 @@ public class AgendamentoService {
                 .cancelado(false)
                 .build();
 
-        return toResponseDTO(agendamentoRepository.save(agendamento));
+        Agendamento salvo = agendamentoRepository.save(agendamento);
+        horarioDisponivel.setDisponivel(false);
+        horarioDisponivelRepository.save(horarioDisponivel);
+
+        return toResponseDTO(salvo);
     }
 
     public AgendamentoResponseDTO buscarPorId(Long id) {
