@@ -1,14 +1,13 @@
 package com.devflows.barberflow.controlers;
-import com.devflows.barberflow.entity.Agendamento.StatusAgendamento;
-import com.devflows.barberflow.service.AgendamentoService;
+
 import com.devflows.barberflow.dto.AgendamentoRequestDTO;
 import com.devflows.barberflow.dto.AgendamentoResponseDTO;
+import com.devflows.barberflow.service.AgendamentoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDate;
+
 import java.util.List;
 
 @RestController
@@ -17,56 +16,50 @@ import java.util.List;
 @CrossOrigin("*")
 public class AgendamentoControler {
 
+    private final AgendamentoService agendamentoService;
 
-    @RestController
-    @RequestMapping("/agendamentos")
-    @RequiredArgsConstructor
-    @CrossOrigin("*")
-    public class AgendamentoController {
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public AgendamentoResponseDTO agendar(@RequestBody @Valid AgendamentoRequestDTO dto) {
+        return agendamentoService.agendar(dto);
+    }
 
-        private final AgendamentoService agendamentoService;
+    @GetMapping("/{id}")
+    public AgendamentoResponseDTO buscarPorId(@PathVariable Long id) {
+        return agendamentoService.buscarPorId(id);
+    }
 
-        @PostMapping
-        @ResponseStatus(HttpStatus.CREATED)
-        public AgendamentoResponseDTO agendar(@RequestBody @Valid AgendamentoRequestDTO dto) {
-            return agendamentoService.agendar(dto);
-        }
+    @GetMapping("/barbeiro/buscar")
+    public List<AgendamentoResponseDTO> buscarPorTelefoneBarbeiro(@RequestParam String telefoneBarbeiro) {
+        return agendamentoService.buscarPorTelefoneBarbeiro(telefoneBarbeiro);
+    }
 
-        @GetMapping("/{id}")
-        public AgendamentoResponseDTO buscarPorId(@PathVariable Long id) {
-            return agendamentoService.buscarPorId(id);
-        }
+    @GetMapping("/barbeiro/listar")
+    public List<AgendamentoResponseDTO> listarDoBarbeiro(@RequestParam String telefoneBarbeiro) {
+        return agendamentoService.listarDoBarbeiro(telefoneBarbeiro);
+    }
 
-        @GetMapping
-        public List<AgendamentoResponseDTO> listar(
-                @RequestParam(required = false) Long clienteId,
-                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data,
-                @RequestParam(required = false) StatusAgendamento status
-        ) {
-            return agendamentoService.listarComFiltros(clienteId, data, status);
-        }
+    @PatchMapping("/{id}/cancelar/barbeiro")
+    public AgendamentoResponseDTO cancelarPorBarbeiro(
+            @PathVariable Long id,
+            @RequestParam String senhaBarbeiro
+    ) {
+        return agendamentoService.cancelarPorBarbeiro(id, senhaBarbeiro);
+    }
 
-        @PutMapping("/{id}")
-        public AgendamentoResponseDTO atualizar(
-                @PathVariable Long id,
-                @RequestBody @Valid AgendamentoRequestDTO dto
-        ) {
-            return agendamentoService.atualizar(id, dto);
-        }
+    @PatchMapping("/{id}/cancelar/cliente")
+    public AgendamentoResponseDTO cancelarPorCliente(
+            @PathVariable Long id,
+            @RequestParam String senhaCliente
+    ) {
+        return agendamentoService.cancelarPorCliente(id, senhaCliente);
+    }
 
-        @PatchMapping("/{id}/status")
-        public AgendamentoResponseDTO atualizarStatus(
-                @PathVariable Long id,
-                @RequestParam StatusAgendamento status
-        ) {
-            return agendamentoService.atualizarStatus(id, status);
-        }
-
-        @DeleteMapping("/{id}")
-        @ResponseStatus(HttpStatus.NO_CONTENT)
-        public void excluir(@PathVariable Long id) {
-            agendamentoService.excluir(id);
-        }
+    @PatchMapping("/{id}/concluir")
+    public AgendamentoResponseDTO concluirServico(
+            @PathVariable Long id,
+            @RequestParam String senhaBarbeiro
+    ) {
+        return agendamentoService.concluirServico(id, senhaBarbeiro);
     }
 }
-

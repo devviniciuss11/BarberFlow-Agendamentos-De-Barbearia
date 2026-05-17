@@ -1,18 +1,18 @@
 package com.devflows.barberflow.service;
 
-import com.devflows.barberflow.entity.Agendamento;
-import com.devflows.barberflow.entity.Agendamento.StatusAgendamento;
-import com.devflows.barberflow.entity.Cliente;
-import com.devflows.barberflow.repositorys.AgendamentoRepository;
-import com.devflows.barberflow.repositorys.ClienteRepository;
 import com.devflows.barberflow.dto.AgendamentoRequestDTO;
 import com.devflows.barberflow.dto.AgendamentoResponseDTO;
+import com.devflows.barberflow.entity.Agendamento;
+import com.devflows.barberflow.entity.Barbeiro;
+import com.devflows.barberflow.entity.Cliente;
+import com.devflows.barberflow.repositorys.AgendamentoRepository;
+import com.devflows.barberflow.repositorys.BarbeiroRepository;
+import com.devflows.barberflow.repositorys.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,24 +21,30 @@ public class AgendamentoService {
 
     private final AgendamentoRepository agendamentoRepository;
     private final ClienteRepository clienteRepository;
+    private final BarbeiroRepository barbeiroRepository;
 
     public AgendamentoResponseDTO agendar(AgendamentoRequestDTO dto) {
-        Cliente cliente = buscarClienteOuLancarErro(dto.clienteId());
+        Cliente cliente = buscarClientePorNomeTelefone(dto.nomeCliente(), dto.telefoneCliente());
+        Barbeiro barbeiro = buscarBarbeiroPorTelefone(dto.telefoneBarbeiro());
 
-        boolean horarioOcupado = agendamentoRepository
-                .existsByDataAndHorarioAndStatusNot(dto.data(), dto.horario(), StatusAgendamento.CANCELADO);
+        boolean horarioOcupado = agendamentoRepository.existsByBarbeiroIdAndDataAndHorarioAndCanceladoFalse(
+                barbeiro.getId(),
+                dto.data(),
+                dto.hora()
+        );
 
         if (horarioOcupado) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "Já existe um agendamento para esse dia e horário.");
+                    "Ja existe um agendamento para este barbeiro nesse dia e horario.");
         }
 
         Agendamento agendamento = Agendamento.builder()
                 .cliente(cliente)
+                .barbeiro(barbeiro)
                 .data(dto.data())
-                .horario(dto.horario())
-                .servico(dto.servico())
-                .status(StatusAgendamento.PENDENTE)
+                .horario(dto.hora())
+                .status(false)
+                .cancelado(false)
                 .build();
 
         return toResponseDTO(agendamentoRepository.save(agendamento));
@@ -48,68 +54,141 @@ public class AgendamentoService {
         return toResponseDTO(buscarAgendamentoOuLancarErro(id));
     }
 
-    public List<AgendamentoResponseDTO> listarComFiltros(Long clienteId, LocalDate data, StatusAgendamento status) {
-        return agendamentoRepository
-                .buscarComFiltros(clienteId, data, status)
+    public List<AgendamentoResponseDTO> buscarPorTelefoneBarbeiro(String telefoneBarbeiro) {
+        validarTelefoneBarbeiro(telefoneBarbeiro);
+        return agendamentoRepository.findByBarbeiroTelefoneOrderByDataAscHorarioAsc(telefoneBarbeiro.trim())
                 .stream()
                 .map(this::toResponseDTO)
                 .toList();
     }
 
-    public AgendamentoResponseDTO atualizar(Long id, AgendamentoRequestDTO dto) {
-        Agendamento agendamento = buscarAgendamentoOuLancarErro(id);
-        Cliente cliente = buscarClienteOuLancarErro(dto.clienteId());
+    public List<AgendamentoResponseDTO> listarDoBarbeiro(String telefoneBarbeiro) {
+        validarTelefoneBarbeiro(telefoneBarbeiro);
+        return agendamentoRepository.findByBarbeiroTelefoneAndCanceladoFalseOrderByDataAscHorarioAsc(telefoneBarbeiro.trim())
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
 
-        boolean horarioOcupado = agendamentoRepository
-                .existsByDataAndHorarioAndStatusNotAndIdNot(
-                        dto.data(), dto.horario(), StatusAgendamento.CANCELADO, id);
+    public AgendamentoResponseDTO cancelarPorBarbeiro(Long agendamentoId, String senhaBarbeiro) {
+        Agendamento agendamento = buscarAgendamentoOuLancarErro(agendamentoId);
+        validarSenha(senhaBarbeiro, "Senha do barbeiro e obrigatoria.");
 
-        if (horarioOcupado) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "Já existe um agendamento para esse dia e horário.");
+        if (!agendamento.getBarbeiro().getSenha().equals(senhaBarbeiro.trim())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Senha do barbeiro invalida.");
         }
 
-        agendamento.setCliente(cliente);
-        agendamento.setData(dto.data());
-        agendamento.setHorario(dto.horario());
-        agendamento.setServico(dto.servico());
+        if (Boolean.TRUE.equals(agendamento.getCancelado())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Agendamento ja esta cancelado.");
+        }
+
+        agendamento.setCancelado(true);
+        agendamento.setStatus(false);
+        return toResponseDTO(agendamentoRepository.save(agendamento));
+    }
+
+    public AgendamentoResponseDTO cancelarPorCliente(Long agendamentoId, String senhaCliente) {
+        Agendamento agendamento = buscarAgendamentoOuLancarErro(agendamentoId);
+        validarSenha(senhaCliente, "Senha do cliente e obrigatoria.");
+
+        if (!agendamento.getCliente().getSenha().equals(senhaCliente.trim())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Senha do cliente invalida.");
+        }
+
+        if (Boolean.TRUE.equals(agendamento.getCancelado())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Agendamento ja esta cancelado.");
+        }
+
+        agendamento.setCancelado(true);
+        agendamento.setStatus(false);
+        return toResponseDTO(agendamentoRepository.save(agendamento));
+    }
+
+    public AgendamentoResponseDTO concluirServico(Long agendamentoId, String senhaBarbeiro) {
+        Agendamento agendamento = buscarAgendamentoOuLancarErro(agendamentoId);
+        validarSenha(senhaBarbeiro, "Senha do barbeiro e obrigatoria.");
+
+        if (!agendamento.getBarbeiro().getSenha().equals(senhaBarbeiro.trim())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Senha do barbeiro invalida.");
+        }
+
+        if (Boolean.TRUE.equals(agendamento.getCancelado())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Agendamento cancelado nao pode ser concluido.");
+        }
+
+        if (Boolean.TRUE.equals(agendamento.getStatus())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Servico ja foi concluido.");
+        }
+
+        agendamento.setStatus(true);
+
+        Cliente cliente = agendamento.getCliente();
+        Integer pontos = cliente.getAgendamentopoints() == null ? 0 : cliente.getAgendamentopoints();
+        cliente.setAgendamentopoints(pontos + 1);
+        clienteRepository.save(cliente);
 
         return toResponseDTO(agendamentoRepository.save(agendamento));
     }
 
-    public AgendamentoResponseDTO atualizarStatus(Long id, StatusAgendamento novoStatus) {
-        Agendamento agendamento = buscarAgendamentoOuLancarErro(id);
-        agendamento.setStatus(novoStatus);
-        return toResponseDTO(agendamentoRepository.save(agendamento));
+    private void validarSenha(String senha, String mensagem) {
+        if (senha == null || senha.trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, mensagem);
+        }
     }
 
-    public void excluir(Long id) {
-        buscarAgendamentoOuLancarErro(id);
-        agendamentoRepository.deleteById(id);
+    private void validarTelefoneBarbeiro(String telefoneBarbeiro) {
+        if (telefoneBarbeiro == null || telefoneBarbeiro.trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do barbeiro e obrigatorio.");
+        }
     }
 
     private Agendamento buscarAgendamentoOuLancarErro(Long id) {
         return agendamentoRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Agendamento não encontrado com id: " + id));
+                        "Agendamento nao encontrado com id: " + id));
     }
 
-    private Cliente buscarClienteOuLancarErro(Long clienteId) {
-        return clienteRepository.findById(clienteId)
+    private Cliente buscarClientePorNomeTelefone(String nome, String telefone) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome do cliente e obrigatorio.");
+        }
+        if (telefone == null || telefone.trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do cliente e obrigatorio.");
+        }
+
+        return clienteRepository.buscarClientesPorNome(nome.trim())
+                .stream()
+                .filter(c -> c.getNome() != null && c.getTelefone() != null)
+                .filter(c -> c.getNome().equalsIgnoreCase(nome.trim()) && c.getTelefone().equals(telefone.trim()))
+                .findFirst()
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Cliente não encontrado com id: " + clienteId));
+                        "Cliente nao encontrado com nome e telefone informados."));
+    }
+
+    private Barbeiro buscarBarbeiroPorTelefone(String telefoneBarbeiro) {
+        if (telefoneBarbeiro == null || telefoneBarbeiro.trim().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do barbeiro e obrigatorio.");
+        }
+
+        return barbeiroRepository.findAll()
+                .stream()
+                .filter(b -> b.getTelefone() != null && b.getTelefone().equals(telefoneBarbeiro.trim()))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Barbeiro nao encontrado com telefone informado."));
     }
 
     private AgendamentoResponseDTO toResponseDTO(Agendamento a) {
         return new AgendamentoResponseDTO(
                 a.getId(),
-                a.getCliente().getId(),
                 a.getCliente().getNome(),
                 a.getCliente().getTelefone(),
+                a.getBarbeiro().getNome(),
+                a.getBarbeiro().getTelefone(),
                 a.getData(),
                 a.getHorario(),
-                a.getServico(),
-                a.getStatus()
+                a.getStatus(),
+                a.getCancelado()
         );
     }
 }

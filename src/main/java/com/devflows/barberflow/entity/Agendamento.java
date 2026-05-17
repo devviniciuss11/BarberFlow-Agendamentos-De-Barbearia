@@ -22,6 +22,10 @@ public class Agendamento {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "barbeiro_id", nullable = false)
+    private Barbeiro barbeiro;
+
     @Column(nullable = false)
     private LocalDate data;
 
@@ -29,16 +33,9 @@ public class Agendamento {
     private LocalTime horario;
 
     @Column(nullable = false)
-    private String servico;
+    private Boolean status;
 
-    @Enumerated(EnumType.STRING)
+    @Builder.Default
     @Column(nullable = false)
-    private StatusAgendamento status;
-
-    public enum StatusAgendamento {
-        PENDENTE,
-        CONFIRMADO,
-        CANCELADO,
-        CONCLUIDO
-    }
+    private Boolean cancelado = false;
 }

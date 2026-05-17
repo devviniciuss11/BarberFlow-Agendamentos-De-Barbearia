@@ -1,4 +1,5 @@
 package com.devflows.barberflow.dto;
+
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,18 +9,19 @@ import java.time.LocalTime;
 
 public record AgendamentoRequestDTO(
 
-        @NotNull(message = "O ID do cliente é obrigatório.")
-        Long clienteId,
+        @NotBlank(message = "O nome do cliente e obrigatorio.")
+        String nomeCliente,
 
-        @NotNull(message = "A data é obrigatória.")
-        @FutureOrPresent(message = "A data não pode ser no passado.")
+        @NotBlank(message = "O telefone do cliente e obrigatorio.")
+        String telefoneCliente,
+
+        @NotBlank(message = "O telefone do barbeiro e obrigatorio.")
+        String telefoneBarbeiro,
+
+        @NotNull(message = "A data e obrigatoria.")
+        @FutureOrPresent(message = "A data nao pode ser no passado.")
         LocalDate data,
 
-        @NotNull(message = "O horário é obrigatório.")
-        LocalTime horario,
-
-        @NotBlank(message = "O serviço é obrigatório.")
-        String servico
+        @NotNull(message = "A hora e obrigatoria.")
+        LocalTime hora
 ) {}
-
-
