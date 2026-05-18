@@ -1,4 +1,4 @@
-package com.devflows.barberflow.controlers;
+package com.devflows.barberflow.controller;
 
 import com.devflows.barberflow.dto.BarbeiroRequestDTO;
 import com.devflows.barberflow.dto.BarbeiroResponseDTO;

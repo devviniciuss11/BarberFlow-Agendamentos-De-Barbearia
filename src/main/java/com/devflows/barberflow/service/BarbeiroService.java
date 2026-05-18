@@ -3,7 +3,7 @@ package com.devflows.barberflow.service;
 import com.devflows.barberflow.entity.Barbeiro;
 import com.devflows.barberflow.dto.BarbeiroRequestDTO;
 import com.devflows.barberflow.dto.BarbeiroResponseDTO;
-import com.devflows.barberflow.repositorys.BarbeiroRepository;
+import com.devflows.barberflow.repository.BarbeiroRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -62,6 +62,8 @@ public class BarbeiroService{
                 barbeiro.setNome(dto.nome());
                 barbeiro.setEspecialidade(dto.especialidade());
                 barbeiro.setTelefone(dto.telefone());
+                barbeiro.setCpf(dto.cpf());
+                barbeiro.setSenha(dto.senha());
         return toResponse(barbeiroRepository.save(barbeiro));
     }
 
@@ -76,9 +78,9 @@ public class BarbeiroService{
     private BarbeiroResponseDTO toResponse(Barbeiro barbeiro) {
         return new BarbeiroResponseDTO(
                 barbeiro.getId(),
+                barbeiro.getEspecialidade(),
                 barbeiro.getNome(),
                 barbeiro.getTelefone(),
-                barbeiro.getEspecialidade(),
                 barbeiro.getCpf(),
                 barbeiro.getAtivo()
         );

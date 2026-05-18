@@ -2,7 +2,7 @@ package com.devflows.barberflow.service;
 
 import com.devflows.barberflow.dto.ClienteResponseDTO;
 import com.devflows.barberflow.entity.Cliente;
-import com.devflows.barberflow.repositorys.ClienteRepository;
+import com.devflows.barberflow.repository.ClienteRepository;
 import com.devflows.barberflow.dto.ClienteRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

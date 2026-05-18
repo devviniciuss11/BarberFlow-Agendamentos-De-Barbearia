@@ -1,4 +1,4 @@
-package com.devflows.barberflow.repositorys;
+package com.devflows.barberflow.repository;
 
 import com.devflows.barberflow.entity.Agendamento;
 import org.springframework.data.jpa.repository.JpaRepository;

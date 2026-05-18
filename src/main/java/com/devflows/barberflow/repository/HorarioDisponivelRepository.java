@@ -1,4 +1,4 @@
-package com.devflows.barberflow.repositorys;
+package com.devflows.barberflow.repository;
 
 import com.devflows.barberflow.entity.HorarioDisponivel;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +16,10 @@ public interface HorarioDisponivelRepository extends JpaRepository<HorarioDispon
     boolean existsByBarbeiroIdAndDataAndHora(Long barbeiroId, LocalDate data, LocalTime hora);
 
     Optional<HorarioDisponivel> findByBarbeiroIdAndDataAndHoraAndDisponivelTrue(Long barbeiroId, LocalDate data, LocalTime hora);
+
+    Optional<HorarioDisponivel> findByBarbeiroIdAndDataAndHoraAndDisponivelFalse(
+            Long barbeiroId,
+            LocalDate data,
+            LocalTime hora
+    );
 }

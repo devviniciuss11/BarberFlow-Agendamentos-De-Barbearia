@@ -6,10 +6,10 @@ import com.devflows.barberflow.entity.Agendamento;
 import com.devflows.barberflow.entity.Barbeiro;
 import com.devflows.barberflow.entity.Cliente;
 import com.devflows.barberflow.entity.HorarioDisponivel;
-import com.devflows.barberflow.repositorys.AgendamentoRepository;
-import com.devflows.barberflow.repositorys.BarbeiroRepository;
-import com.devflows.barberflow.repositorys.ClienteRepository;
-import com.devflows.barberflow.repositorys.HorarioDisponivelRepository;
+import com.devflows.barberflow.repository.AgendamentoRepository;
+import com.devflows.barberflow.repository.BarbeiroRepository;
+import com.devflows.barberflow.repository.ClienteRepository;
+import com.devflows.barberflow.repository.HorarioDisponivelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -95,6 +95,7 @@ public class AgendamentoService {
 
         agendamento.setCancelado(true);
         agendamento.setStatus(false);
+        liberarHorario(agendamento);
         return toResponseDTO(agendamentoRepository.save(agendamento));
     }
 
@@ -112,6 +113,7 @@ public class AgendamentoService {
 
         agendamento.setCancelado(true);
         agendamento.setStatus(false);
+        liberarHorario(agendamento);
         return toResponseDTO(agendamentoRepository.save(agendamento));
     }
 
@@ -211,5 +213,17 @@ public class AgendamentoService {
                 a.getStatus(),
                 a.getCancelado()
         );
+    }
+    private void liberarHorario(Agendamento agendamento) {
+        horarioDisponivelRepository
+                .findByBarbeiroIdAndDataAndHoraAndDisponivelFalse(
+                        agendamento.getBarbeiro().getId(),
+                        agendamento.getData(),
+                        agendamento.getHorario()
+                )
+                .ifPresent(horario -> {
+                    horario.setDisponivel(true);
+                    horarioDisponivelRepository.save(horario);
+                });
     }
 }

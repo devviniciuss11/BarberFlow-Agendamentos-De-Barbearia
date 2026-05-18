@@ -1,4 +1,4 @@
-package com.devflows.barberflow.controlers;
+package com.devflows.barberflow.controller;
 import com.devflows.barberflow.service.HorarioDisponivelService;
 import com.devflows.barberflow.dto.HorarioRequestDTO;
 import com.devflows.barberflow.dto.HorarioResponseDTO;
