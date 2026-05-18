@@ -524,6 +524,7 @@ bindForm("form-horario-listar", async (form) => {
     const response = await request("/Horarios/disponiveis", {
         query: {
             barbeiroId: toNumber(readValue(form, "barbeiroId"), "ID do barbeiro"),
+            clienteId: toNumber(readValue(form, "clienteId"), "ID do cliente"),
             data: readValue(form, "data")
         }
     });
@@ -576,6 +577,14 @@ bindForm("form-agendamento-concluir", async (form) => {
     showOutput("Agendamento concluido", response);
     form.reset();
     await atualizarRanking();
+
+    if (response && response.barbeiroTelefone) {
+        const atualizados = await request("/agendamentos/barbeiro/listar", {
+            query: { telefoneBarbeiro: response.barbeiroTelefone }
+        });
+
+        renderList(agendamentosListEl, atualizados, formatAgendamento, "Nenhum agendamento encontrado.", agendamentosListMetaEl, "agendamento");
+    }
 });
 
 bindForm("form-agendamento-cancelar-cliente", async (form) => {

@@ -75,7 +75,7 @@ public class AgendamentoService {
 
     public List<AgendamentoResponseDTO> listarDoBarbeiro(String telefoneBarbeiro) {
         validarTelefoneBarbeiro(telefoneBarbeiro);
-        return agendamentoRepository.findByBarbeiroTelefoneAndCanceladoFalseOrderByDataAscHorarioAsc(telefoneBarbeiro.trim())
+        return agendamentoRepository.findByBarbeiroTelefoneAndCanceladoFalseAndStatusFalseOrderByDataAscHorarioAsc(telefoneBarbeiro.trim())
                 .stream()
                 .map(this::toResponseDTO)
                 .toList();
@@ -151,6 +151,10 @@ public class AgendamentoService {
         if (telefoneBarbeiro == null || telefoneBarbeiro.trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do barbeiro e obrigatorio.");
         }
+
+        if (!telefoneBarbeiro.trim().matches("\\d+")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do barbeiro deve conter apenas numeros.");
+        }
     }
 
     private Agendamento buscarAgendamentoOuLancarErro(Long id) {
@@ -166,6 +170,9 @@ public class AgendamentoService {
         if (telefone == null || telefone.trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do cliente e obrigatorio.");
         }
+        if (!telefone.trim().matches("\\d+")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do cliente deve conter apenas numeros.");
+        }
 
         return clienteRepository.buscarClientesPorNome(nome.trim())
                 .stream()
@@ -179,6 +186,9 @@ public class AgendamentoService {
     private Barbeiro buscarBarbeiroPorTelefone(String telefoneBarbeiro) {
         if (telefoneBarbeiro == null || telefoneBarbeiro.trim().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do barbeiro e obrigatorio.");
+        }
+        if (!telefoneBarbeiro.trim().matches("\\d+")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do barbeiro deve conter apenas numeros.");
         }
 
         return barbeiroRepository.findAll()

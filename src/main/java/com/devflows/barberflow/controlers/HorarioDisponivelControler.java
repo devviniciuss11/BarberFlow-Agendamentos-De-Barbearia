@@ -21,7 +21,11 @@ public class HorarioDisponivelControler {
     }
 
     @GetMapping("/disponiveis")
-    public List<HorarioResponseDTO> listarDisponiveis(@RequestParam Long barbeiroId, @RequestParam String data) {
-        return horarioservice.listarDisponiveis(barbeiroId, data);
+    public List<HorarioResponseDTO> listarDisponiveis(
+            @RequestParam Long barbeiroId,
+            @RequestParam Long clienteId,
+            @RequestParam String data
+    ) {
+        return horarioservice.listarDisponiveis(barbeiroId, clienteId, data);
     }
 }

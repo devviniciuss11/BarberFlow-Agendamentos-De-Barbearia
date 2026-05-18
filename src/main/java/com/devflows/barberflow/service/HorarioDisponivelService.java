@@ -3,8 +3,10 @@ package com.devflows.barberflow.service;
 import com.devflows.barberflow.dto.HorarioRequestDTO;
 import com.devflows.barberflow.dto.HorarioResponseDTO;
 import com.devflows.barberflow.entity.Barbeiro;
+import com.devflows.barberflow.entity.Cliente;
 import com.devflows.barberflow.entity.HorarioDisponivel;
 import com.devflows.barberflow.repositorys.BarbeiroRepository;
+import com.devflows.barberflow.repositorys.ClienteRepository;
 import com.devflows.barberflow.repositorys.HorarioDisponivelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ public class HorarioDisponivelService {
 
     private final HorarioDisponivelRepository horarioDisponivelRepository;
     private final BarbeiroRepository barbeiroRepository;
+    private final ClienteRepository clienteRepository;
 
     public HorarioResponseDTO cadastrarHorario(HorarioRequestDTO dto) {
         if (dto.barbeiroid() == null) {
@@ -51,16 +54,46 @@ public class HorarioDisponivelService {
         return toResponse(horarioDisponivelRepository.save(horario));
     }
 
-    public List<HorarioResponseDTO> listarDisponiveis(Long barbeiroId, String data) {
+    public List<HorarioResponseDTO> listarDisponiveis(Long barbeiroId, Long clienteId, String data) {
         if (barbeiroId == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do barbeiro e obrigatorio.");
         }
+        if (clienteId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID do cliente e obrigatorio.");
+        }
 
         LocalDate dataConvertida = parseData(data);
-        return horarioDisponivelRepository.findByBarbeiroIdAndDataAndDisponivelTrueOrderByHoraAsc(barbeiroId, dataConvertida)
-                .stream()
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente nao encontrado."));
+
+        List<HorarioDisponivel> horarios = horarioDisponivelRepository
+                .findByBarbeiroIdAndDataAndDisponivelTrueOrderByHoraAsc(barbeiroId, dataConvertida);
+
+        int limite = calcularLimitePorPontos(cliente.getAgendamentopoints(), horarios.size());
+
+        return horarios.stream()
+                .limit(limite)
                 .map(this::toResponse)
                 .toList();
+    }
+
+    private int calcularLimitePorPontos(Integer pontosCliente, int totalHorariosDisponiveis) {
+        int pontos = pontosCliente == null ? 0 : pontosCliente;
+
+        if (totalHorariosDisponiveis <= 0) {
+            return 0;
+        }
+        if (pontos >= 10) {
+            return totalHorariosDisponiveis;
+        }
+        if (pontos >= 5) {
+            return Math.min(totalHorariosDisponiveis, 8);
+        }
+        if (pontos >= 1) {
+            return Math.min(totalHorariosDisponiveis, 5);
+        }
+
+        return Math.min(totalHorariosDisponiveis, 3);
     }
 
     private LocalDate parseData(String data) {

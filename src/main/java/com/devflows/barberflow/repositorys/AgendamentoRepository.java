@@ -15,6 +15,8 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
 
     List<Agendamento> findByBarbeiroTelefoneAndCanceladoFalseOrderByDataAscHorarioAsc(String telefoneBarbeiro);
 
+    List<Agendamento> findByBarbeiroTelefoneAndCanceladoFalseAndStatusFalseOrderByDataAscHorarioAsc(String telefoneBarbeiro);
+
     boolean existsByBarbeiroIdAndDataAndHorarioAndCanceladoFalse(Long barbeiroId, LocalDate data, LocalTime horario);
 
     boolean existsByBarbeiroIdAndDataAndHorarioAndCanceladoFalseAndIdNot(
