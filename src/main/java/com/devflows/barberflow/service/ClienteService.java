@@ -1,5 +1,4 @@
 package com.devflows.barberflow.service;
-
 import com.devflows.barberflow.dto.ClienteResponseDTO;
 import com.devflows.barberflow.entity.Cliente;
 import com.devflows.barberflow.repository.ClienteRepository;
@@ -17,7 +16,7 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
     public ClienteResponseDTO cadastrar(ClienteRequestDTO dto){
         Cliente cliente = Cliente.builder().nome(dto.nome()).telefone(dto.telefone()).senha(dto.senha()).agendamentopoints(0).build();
-        if(clienteRepository.existsBytelefone(dto.telefone())){
+        if(clienteRepository.existsByTelefone(dto.telefone())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Telefone Já Cadastrado");
         }
         return toResponse(clienteRepository.save(cliente));
@@ -34,7 +33,7 @@ public class ClienteService {
     }
 
     private Cliente buscarEntidade(Long id){
-        return clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        return clienteRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente não encontrado"));
     }
 
     private ClienteResponseDTO toResponse(Cliente cliente) {
@@ -45,7 +44,7 @@ public class ClienteService {
         String termoBusca = temBusca ? busca.trim() : null;
 
         List<Cliente> clientes = temBusca
-                ? clienteRepository.buscarClientesPorNome(termoBusca)
+                ? clienteRepository.buscarClientesPorNomeOuTelefone(termoBusca)
                 : clienteRepository.findAll();
 
         if (temBusca && clientes.isEmpty()) {

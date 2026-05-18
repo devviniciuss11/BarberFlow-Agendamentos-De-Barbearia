@@ -1,5 +1,4 @@
 package com.devflows.barberflow.entity;
-
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -29,7 +28,7 @@ public class HorarioDisponivel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "barbeiro_id", nullable = false)
-    private com.devflows.barberflow.entity.Barbeiro barbeiro;
+    private Barbeiro barbeiro;
 
 
 }

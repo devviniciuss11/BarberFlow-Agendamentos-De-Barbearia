@@ -18,10 +18,10 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
                OR c.telefone LIKE CONCAT('%', :nome, '%')
             ORDER BY c.nome
             """, nativeQuery = true)
-    List<Cliente> buscarClientesPorNome(@Param("nome") String nome);
+    List<Cliente> buscarClientesPorNomeOuTelefone(@Param("nome") String nome);
 
 
-    boolean existsBytelefone(@NotBlank(message = "Telefone é obrigatório.") String telefone);
+    boolean existsByTelefone(@NotBlank(message = "Telefone é obrigatório.") String telefone);
     boolean existsByTelefoneAndIdNot(String telefone, Long id);
 }
 

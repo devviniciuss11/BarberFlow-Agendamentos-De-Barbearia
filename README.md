@@ -45,7 +45,7 @@ O projeto usa as propriedades em `src/main/resources/application.properties`:
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/BarberFlow
 spring.datasource.username=postgres
-spring.datasource.password=2006
+spring.datasource.password=SuaSenhaDoPostgres
 ```
 
 Antes de subir a API:

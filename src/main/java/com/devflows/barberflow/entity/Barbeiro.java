@@ -34,8 +34,4 @@ public class Barbeiro{
     @Column(nullable = false)
     private Boolean ativo = true;
 
-//      Abaixo é o Relacionamento Barbeiro -> Agendamento
-//    @OneToMany(mappedBy = "barbeiro")
-//    private List<Agendamento> agendamento;
-
 }
