@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/barbeiros")
 @RequiredArgsConstructor
-
+@CrossOrigin("*")
 public class BarbeiroControler {
 
     private final BarbeiroService barbeiroService;

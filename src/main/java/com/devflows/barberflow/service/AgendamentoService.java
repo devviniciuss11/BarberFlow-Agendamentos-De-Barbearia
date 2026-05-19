@@ -176,7 +176,7 @@ public class AgendamentoService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do cliente deve conter apenas numeros.");
         }
 
-        return clienteRepository.buscarClientesPorNome(nome.trim())
+        return clienteRepository.buscarClientesPorNomeOuTelefone(nome.trim())
                 .stream()
                 .filter(c -> c.getNome() != null && c.getTelefone() != null)
                 .filter(c -> c.getNome().equalsIgnoreCase(nome.trim()) && c.getTelefone().equals(telefone.trim()))
