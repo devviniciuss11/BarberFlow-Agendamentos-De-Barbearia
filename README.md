@@ -2,45 +2,78 @@
 
 API REST para gerenciamento de barbearia com landing page integrada.
 
-## Contexto academico e equipe
+## Nome e descricao do projeto
 
-O BarberFlow e um projeto academico da disciplina de Programacao 2 e foi desenvolvido em grupo.
+- **Nome:** BarberFlow
+- **Descricao:** plataforma academica para cadastro de clientes e barbeiros, gestao de horarios disponiveis e ciclo completo de agendamentos (criar, cancelar e concluir), com sistema de pontos para priorizacao de horarios.
 
-Integrantes do grupo e responsabilidades:
-- Vinicius de Sousa Silva: responsavel pelo CRUD de Cliente.
-- Matheus Guilherme de Paula: responsavel pelo CRUD de Barbeiro.
-- Joao Felipe e Tainon Coutinho: responsaveis pela feature de Agendamento.
-- Igor Gustavo: responsavel pela feature de HorariosDisponiveis.
-- Emanuel Vinicius e Pedro Henrique: responsaveis pelo Frontend.
+## Integrantes do grupo
 
-O projeto permite:
-- cadastro e gestao de clientes
-- cadastro e gestao de barbeiros
-- cadastro e consulta de horarios disponiveis
+- Vinicius de Sousa Silva - CRUD de Cliente
+- Matheus Guilherme de Paula - CRUD de Barbeiro
+- Joao Felipe e Tainon Coutinho - feature de Agendamento
+- Igor Gustavo - feature de HorariosDisponiveis
+- Emanuel Vinicius e Pedro Henrique - Frontend
+
+## Problema (dor), contexto e motivacao
+
+Barbearias pequenas normalmente controlam agenda por mensagens, caderno ou planilhas, o que gera conflitos de horario, retrabalho e pouca visibilidade da rotina dos profissionais.  
+No contexto da disciplina de Programacao II, o projeto foi motivado pela necessidade de aplicar modelagem orientada a objetos, persistencia relacional e API REST em um dominio real de servicos.
+
+## Solucao proposta
+
+O BarberFlow centraliza o fluxo de agendamento em uma API REST com regras de negocio para:
+
+- cadastro e consulta de clientes
+- cadastro e gerenciamento de barbeiros
+- cadastro de horarios disponiveis por barbeiro
+- agendamento com validacao de disponibilidade
+- cancelamento por cliente ou barbeiro
+- conclusao de servico com acumulacao de pontos do cliente
+- priorizacao de exibicao de horarios baseada em `agendamentoPoints`
+
+## Features entregues ate o momento da submissao
+
+- CRUD completo de clientes
+- CRUD de barbeiros com inativacao logica
+- cadastro e listagem de horarios disponiveis
 - criacao, cancelamento e conclusao de agendamentos
-- sistema de pontos (`agendamentoPoints`) para ranking e prioridade de exibicao de horarios
+- validacoes de telefone/senha e regras de conflito de horario
+- ranking de clientes por pontos na landing page
+- migracoes Flyway em schema final (versionamento de banco)
+- documentacao de endpoints via Swagger/OpenAPI
 
-## Tecnologias
+## Tecnologias utilizadas (com versoes)
 
 - Java 21
-- Spring Boot 4.0.6
-- Spring Web MVC
-- Spring Data JPA
-- Bean Validation
-- Flyway
-- PostgreSQL
-- Lombok
-- OpenAPI/Swagger (springdoc)
+- Spring Boot `4.0.6`
+- Spring Web MVC `4.0.6` (starter gerenciado pelo Spring Boot)
+- Spring Data JPA `4.0.6` (starter gerenciado pelo Spring Boot)
+- Flyway starter `4.0.6` + `flyway-database-postgresql 11.14.1`
+- PostgreSQL JDBC Driver `42.7.10`
+- Lombok `1.18.46`
+- OpenAPI/Swagger (`springdoc-openapi-starter-webmvc-ui 2.7.0`)
 - Maven Wrapper (`mvnw`, `mvnw.cmd`)
 
-## Requisitos
+## Quadro Kanban
 
-- JDK 21
+- Trello do projeto (atividades descritas e atribuidas): [Projeto Programacao II](https://trello.com/b/HT9QjLoH/projeto-programacao-ii)
+
+## Requisitos para executar localmente
+
+- JDK 21 instalado
 - PostgreSQL ativo
 
-## Configuracao do banco
+## Variaveis de ambiente necessarias
 
-O projeto usa as propriedades em `src/main/resources/application.properties`:
+Nao ha variavel obrigatoria se voce optar por configurar diretamente em `src/main/resources/application.properties`.  
+Se preferir, pode usar variaveis de ambiente padrao do Spring Boot:
+
+- `SPRING_DATASOURCE_URL`
+- `SPRING_DATASOURCE_USERNAME`
+- `SPRING_DATASOURCE_PASSWORD`
+
+Exemplo equivalente no `application.properties`:
 
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/BarberFlow
@@ -48,28 +81,26 @@ spring.datasource.username=postgres
 spring.datasource.password=SuaSenhaDoPostgres
 ```
 
-Antes de subir a API:
-1. Crie o banco `BarberFlow` no PostgreSQL.
-2. Ajuste `username` e `password` para seu ambiente, se necessario.
+## Como executar o projeto localmente (passo a passo)
 
-As migrations Flyway em `src/main/resources/db/migration` sao executadas automaticamente na inicializacao.
-
-## Como executar
-
-No Windows:
-
-```powershell
-.\mvnw.cmd spring-boot:run
-```
-
-No Linux/macOS:
-
-```bash
-./mvnw spring-boot:run
-```
-
-Aplicacao (landing page): `http://localhost:8080/`  
-API base: `http://localhost:8080`
+1. Abra o terminal na raiz do projeto.
+2. Crie o banco no PostgreSQL:
+   - nome do banco: `BarberFlow`
+3. Configure credenciais de banco:
+   - via `application.properties` **ou** via variaveis de ambiente.
+4. Execute a aplicacao:
+   - Windows:
+     ```powershell
+     .\mvnw.cmd clean spring-boot:run
+     ```
+   - Linux/macOS:
+     ```bash
+     ./mvnw clean spring-boot:run
+     ```
+5. Acesse:
+   - landing page: `http://localhost:8080/`
+   - API base: `http://localhost:8080`
+6. As migrations Flyway em `src/main/resources/db/migration` rodam automaticamente na inicializacao.
 
 ## Testes
 
@@ -79,15 +110,13 @@ API base: `http://localhost:8080`
 
 ## Swagger / OpenAPI
 
-Com a aplicacao rodando, acesse:
+Com a aplicacao rodando:
 
 - `http://localhost:8080/swagger-ui/index.html`
 
 ## Colecao Postman
 
-Colecao disponivel em:
-
-- `docs/BarberFlow.postman_collection.json`
+- `docs/BarberFlow API Copy.postman_collection.json`
 
 ## Endpoints principais
 
@@ -137,17 +166,13 @@ Colecao disponivel em:
 
 ```text
 src/main/java/com/devflows/barberflow
-  controlers/      # endpoints REST
-  service/         # regras de negocio
-  repositorys/     # acesso a dados (JPA)
-  entity/          # entidades
-  dto/             # contratos de entrada e saida
+  controller/       # endpoints REST
+  service/          # regras de negocio
+  repository/       # acesso a dados (JPA)
+  entity/           # entidades
+  dto/              # contratos de entrada e saida
 
 src/main/resources
-  db/migration/    # scripts Flyway
-  static/          # landing page (HTML/CSS/JS)
+  db/migration/     # scripts Flyway
+  static/           # landing page (HTML/CSS/JS)
 ```
-
-## Status
-
-Projeto funcional para uso local e estudos, com API Rest + landing page.
