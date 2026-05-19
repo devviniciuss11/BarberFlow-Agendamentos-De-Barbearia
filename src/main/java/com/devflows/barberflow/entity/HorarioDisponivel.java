@@ -1,4 +1,5 @@
 package com.devflows.barberflow.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;

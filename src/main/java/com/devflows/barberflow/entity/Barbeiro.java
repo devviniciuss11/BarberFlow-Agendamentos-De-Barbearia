@@ -1,4 +1,5 @@
 package com.devflows.barberflow.entity;
+
 import lombok.*;
 import jakarta.persistence.*;
 

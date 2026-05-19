@@ -6,6 +6,8 @@ out/
 # --- Logs ---
 *.log
 logs/
+hs_err_pid*
+replay_pid*
 
 # --- Maven Wrapper ---
 !.mvn/wrapper/maven-wrapper.jar
@@ -42,6 +44,12 @@ Thumbs.db
 .env
 .env.*
 *.local
+*.postman_environment.json
+*.postman_globals.json
+
+# --- Temporary files ---
+*.tmp
+*.bak
 
 # --- Spring Initializr helper file ---
 HELP.md

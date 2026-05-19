@@ -112,11 +112,15 @@ spring.datasource.password=SuaSenhaDoPostgres
 
 Com a aplicacao rodando:
 
+- `http://localhost:8080/swagger-ui.html`
 - `http://localhost:8080/swagger-ui/index.html`
+- `http://localhost:8080/v3/api-docs`
 
 ## Colecao Postman
 
 - `docs/BarberFlow API Copy.postman_collection.json`
+- Variavel principal configurada: `{{base_url}} = http://localhost:8080`
+- Requests organizadas por recurso: `Barbeiros`, `Clientes`, `Horarios` e `Agendamentos`
 
 ## Endpoints principais
 
