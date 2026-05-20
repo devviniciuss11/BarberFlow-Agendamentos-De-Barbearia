@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/barbeiros")
 @RequiredArgsConstructor
 @CrossOrigin("*")
-@Tag(name = "Barbeiros", description = "Operacoes de cadastro, consulta, atualizacao e inativacao de barbeiros.")
+@Tag(name = "Barbeiros", description = "Operacoes de cadastro, consulta, atualizacao e remocao de barbeiros.")
 public class BarbeiroControler {
 
     private final BarbeiroService barbeiroService;
@@ -89,11 +89,11 @@ public class BarbeiroControler {
     }
 
     @Operation(
-            summary = "Inativar barbeiro",
-            description = "Realiza inativacao logica do barbeiro (campo ativo = false)."
+            summary = "Remover barbeiro",
+            description = "Remove permanentemente o barbeiro do sistema."
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Barbeiro inativado com sucesso."),
+            @ApiResponse(responseCode = "204", description = "Barbeiro removido com sucesso."),
             @ApiResponse(responseCode = "404", description = "Barbeiro nao encontrado.")
     })
     @DeleteMapping("/{id}")

@@ -1,414 +1,414 @@
 ﻿{
-    "info":  {
-                 "_postman_id":  "9d0f7f89-ef4a-4ccf-8d8b-6f0ebf4b71e2",
-                 "name":  "BarberFlow - Funcionalidades Completas",
-                 "description":  "Collection completa da API BarberFlow com todas as funcionalidades de Clientes, Barbeiros, Horarios e Agendamentos.",
-                 "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-             },
-    "item":  [
-                 {
-                     "name":  "Clientes",
-                     "item":  [
-                                  {
-                                      "name":  "Cadastrar Cliente",
-                                      "request":  {
-                                                      "method":  "POST",
-                                                      "header":  [
-                                                                     {
-                                                                         "key":  "Content-Type",
-                                                                         "value":  "application/json"
-                                                                     }
-                                                                 ],
-                                                      "body":  {
-                                                                   "mode":  "raw",
-                                                                   "raw":  "{\n  \"nome\": \"{{nomeCliente}}\",\n  \"telefone\": \"{{telefoneCliente}}\",\n  \"senha\": \"{{senhaCliente}}\"\n}",
-                                                                   "options":  {
-                                                                                   "raw":  {
-                                                                                               "language":  "json"
-                                                                                           }
-                                                                               }
-                                                               },
-                                                      "url":  "{{base_url}}/clientes",
-                                                      "description":  "Cria um novo cliente e salva o ID retornado em {{clienteId}}."
-                                                  },
-                                      "event":  [
-                                                    {
-                                                        "listen":  "test",
-                                                        "script":  {
-                                                                       "type":  "text/javascript",
-                                                                       "exec":  [
-                                                                                    "pm.test(\u0027Status 201\u0027, function () { pm.response.to.have.status(201); });",
-                                                                                    "var data = pm.response.json();",
-                                                                                    "if (data \u0026\u0026 data.id) { pm.collectionVariables.set(\u0027clienteId\u0027, String(data.id)); }"
-                                                                                ]
-                                                                   }
-                                                    }
-                                                ]
-                                  },
-                                  {
-                                      "name":  "Listar Clientes",
-                                      "request":  {
-                                                      "method":  "GET",
-                                                      "url":  "{{base_url}}/clientes",
-                                                      "description":  "Lista todos os clientes."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Buscar Cliente por ID",
-                                      "request":  {
-                                                      "method":  "GET",
-                                                      "url":  "{{base_url}}/clientes/{{clienteId}}",
-                                                      "description":  "Consulta cliente pelo ID salvo em {{clienteId}}."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Buscar Cliente por Nome/Telefone",
-                                      "request":  {
-                                                      "method":  "GET",
-                                                      "url":  "{{base_url}}/clientes?busca={{buscaCliente}}",
-                                                      "description":  "Busca cliente por nome ou telefone com o parametro busca."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Atualizar Cliente",
-                                      "request":  {
-                                                      "method":  "PUT",
-                                                      "header":  [
-                                                                     {
-                                                                         "key":  "Content-Type",
-                                                                         "value":  "application/json"
-                                                                     }
-                                                                 ],
-                                                      "body":  {
-                                                                   "mode":  "raw",
-                                                                   "raw":  "{\n  \"nome\": \"{{nomeClienteAtualizado}}\",\n  \"telefone\": \"{{telefoneCliente}}\",\n  \"senha\": \"{{senhaCliente}}\"\n}",
-                                                                   "options":  {
-                                                                                   "raw":  {
-                                                                                               "language":  "json"
-                                                                                           }
-                                                                               }
-                                                               },
-                                                      "url":  "{{base_url}}/clientes/{{clienteId}}",
-                                                      "description":  "Atualiza dados do cliente selecionado."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Remover Cliente",
-                                      "request":  {
-                                                      "method":  "DELETE",
-                                                      "url":  "{{base_url}}/clientes/{{clienteId}}",
-                                                      "description":  "Exclui cliente pelo ID."
-                                                  }
-                                  }
-                              ]
-                 },
-                 {
-                     "name":  "Barbeiros",
-                     "item":  [
-                                  {
-                                      "name":  "Cadastrar Barbeiro",
-                                      "request":  {
-                                                      "method":  "POST",
-                                                      "header":  [
-                                                                     {
-                                                                         "key":  "Content-Type",
-                                                                         "value":  "application/json"
-                                                                     }
-                                                                 ],
-                                                      "body":  {
-                                                                   "mode":  "raw",
-                                                                   "raw":  "{\n  \"nome\": \"{{nomeBarbeiro}}\",\n  \"especialidade\": \"{{especialidadeBarbeiro}}\",\n  \"telefone\": \"{{telefoneBarbeiro}}\",\n  \"senha\": \"{{senhaBarbeiro}}\",\n  \"cpf\": \"{{cpfBarbeiro}}\"\n}",
-                                                                   "options":  {
-                                                                                   "raw":  {
-                                                                                               "language":  "json"
-                                                                                           }
-                                                                               }
-                                                               },
-                                                      "url":  "{{base_url}}/barbeiros",
-                                                      "description":  "Cria barbeiro e salva o ID em {{barbeiroId}}."
-                                                  },
-                                      "event":  [
-                                                    {
-                                                        "listen":  "test",
-                                                        "script":  {
-                                                                       "type":  "text/javascript",
-                                                                       "exec":  [
-                                                                                    "pm.test(\u0027Status 201\u0027, function () { pm.response.to.have.status(201); });",
-                                                                                    "var data = pm.response.json();",
-                                                                                    "if (data \u0026\u0026 data.id) { pm.collectionVariables.set(\u0027barbeiroId\u0027, String(data.id)); }"
-                                                                                ]
-                                                                   }
-                                                    }
-                                                ]
-                                  },
-                                  {
-                                      "name":  "Listar Barbeiros",
-                                      "request":  {
-                                                      "method":  "GET",
-                                                      "url":  "{{base_url}}/barbeiros",
-                                                      "description":  "Lista todos os barbeiros."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Buscar Barbeiro por ID",
-                                      "request":  {
-                                                      "method":  "GET",
-                                                      "url":  "{{base_url}}/barbeiros/{{barbeiroId}}",
-                                                      "description":  "Consulta barbeiro pelo ID salvo em {{barbeiroId}}."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Atualizar Barbeiro",
-                                      "request":  {
-                                                      "method":  "PUT",
-                                                      "header":  [
-                                                                     {
-                                                                         "key":  "Content-Type",
-                                                                         "value":  "application/json"
-                                                                     }
-                                                                 ],
-                                                      "body":  {
-                                                                   "mode":  "raw",
-                                                                   "raw":  "{\n  \"nome\": \"{{nomeBarbeiroAtualizado}}\",\n  \"especialidade\": \"{{especialidadeBarbeiroAtualizada}}\",\n  \"telefone\": \"{{telefoneBarbeiro}}\",\n  \"senha\": \"{{senhaBarbeiro}}\",\n  \"cpf\": \"{{cpfBarbeiro}}\"\n}",
-                                                                   "options":  {
-                                                                                   "raw":  {
-                                                                                               "language":  "json"
-                                                                                           }
-                                                                               }
-                                                               },
-                                                      "url":  "{{base_url}}/barbeiros/{{barbeiroId}}",
-                                                      "description":  "Atualiza dados do barbeiro selecionado."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Inativar Barbeiro",
-                                      "request":  {
-                                                      "method":  "DELETE",
-                                                      "url":  "{{base_url}}/barbeiros/{{barbeiroId}}",
-                                                      "description":  "Inativacao logica do barbeiro (ativo=false)."
-                                                  }
-                                  }
-                              ]
-                 },
-                 {
-                     "name":  "Horarios",
-                     "item":  [
-                                  {
-                                      "name":  "Cadastrar Horario Disponivel",
-                                      "request":  {
-                                                      "method":  "POST",
-                                                      "header":  [
-                                                                     {
-                                                                         "key":  "Content-Type",
-                                                                         "value":  "application/json"
-                                                                     }
-                                                                 ],
-                                                      "body":  {
-                                                                   "mode":  "raw",
-                                                                   "raw":  "{\n  \"barbeiroid\": {{barbeiroId}},\n  \"data\": \"{{dataAgendamento}}\",\n  \"hora\": \"{{horaHorario}}\",\n  \"disponivel\": true\n}",
-                                                                   "options":  {
-                                                                                   "raw":  {
-                                                                                               "language":  "json"
-                                                                                           }
-                                                                               }
-                                                               },
-                                                      "url":  "{{base_url}}/Horarios",
-                                                      "description":  "Cadastra horario disponivel para o barbeiro informado."
-                                                  },
-                                      "event":  [
-                                                    {
-                                                        "listen":  "test",
-                                                        "script":  {
-                                                                       "type":  "text/javascript",
-                                                                       "exec":  [
-                                                                                    "pm.test(\u0027Status 201\u0027, function () { pm.response.to.have.status(201); });",
-                                                                                    "var data = pm.response.json();",
-                                                                                    "if (data \u0026\u0026 data.id) { pm.collectionVariables.set(\u0027horarioId\u0027, String(data.id)); }"
-                                                                                ]
-                                                                   }
-                                                    }
-                                                ]
-                                  },
-                                  {
-                                      "name":  "Listar Horarios Disponiveis",
-                                      "request":  {
-                                                      "method":  "GET",
-                                                      "url":  "{{base_url}}/Horarios/disponiveis?barbeiroId={{barbeiroId}}\u0026clienteId={{clienteId}}\u0026data={{dataAgendamento}}",
-                                                      "description":  "Lista horarios disponiveis considerando a regra de pontos do cliente."
-                                                  }
-                                  }
-                              ]
-                 },
-                 {
-                     "name":  "Agendamentos",
-                     "item":  [
-                                  {
-                                      "name":  "Criar Agendamento",
-                                      "request":  {
-                                                      "method":  "POST",
-                                                      "header":  [
-                                                                     {
-                                                                         "key":  "Content-Type",
-                                                                         "value":  "application/json"
-                                                                     }
-                                                                 ],
-                                                      "body":  {
-                                                                   "mode":  "raw",
-                                                                   "raw":  "{\n  \"nomeCliente\": \"{{nomeClienteAtualizado}}\",\n  \"telefoneCliente\": \"{{telefoneCliente}}\",\n  \"telefoneBarbeiro\": \"{{telefoneBarbeiro}}\",\n  \"data\": \"{{dataAgendamento}}\",\n  \"hora\": \"{{horaAgendamento}}\"\n}",
-                                                                   "options":  {
-                                                                                   "raw":  {
-                                                                                               "language":  "json"
-                                                                                           }
-                                                                               }
-                                                               },
-                                                      "url":  "{{base_url}}/agendamentos",
-                                                      "description":  "Cria agendamento e salva ID em {{agendamentoId}}."
-                                                  },
-                                      "event":  [
-                                                    {
-                                                        "listen":  "test",
-                                                        "script":  {
-                                                                       "type":  "text/javascript",
-                                                                       "exec":  [
-                                                                                    "pm.test(\u0027Status 201\u0027, function () { pm.response.to.have.status(201); });",
-                                                                                    "var data = pm.response.json();",
-                                                                                    "if (data \u0026\u0026 data.id) { pm.collectionVariables.set(\u0027agendamentoId\u0027, String(data.id)); }"
-                                                                                ]
-                                                                   }
-                                                    }
-                                                ]
-                                  },
-                                  {
-                                      "name":  "Buscar Agendamento por ID",
-                                      "request":  {
-                                                      "method":  "GET",
-                                                      "url":  "{{base_url}}/agendamentos/{{agendamentoId}}",
-                                                      "description":  "Consulta agendamento pelo ID salvo em {{agendamentoId}}."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Buscar Agendamentos por Telefone do Barbeiro",
-                                      "request":  {
-                                                      "method":  "GET",
-                                                      "url":  "{{base_url}}/agendamentos/barbeiro/buscar?telefoneBarbeiro={{telefoneBarbeiro}}",
-                                                      "description":  "Retorna todos os agendamentos do barbeiro."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Listar Agendamentos Ativos do Barbeiro",
-                                      "request":  {
-                                                      "method":  "GET",
-                                                      "url":  "{{base_url}}/agendamentos/barbeiro/listar?telefoneBarbeiro={{telefoneBarbeiro}}",
-                                                      "description":  "Lista agendamentos nao cancelados e nao concluidos."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Cancelar Agendamento pelo Cliente",
-                                      "request":  {
-                                                      "method":  "PATCH",
-                                                      "url":  "{{base_url}}/agendamentos/{{agendamentoId}}/cancelar/cliente?senhaCliente={{senhaCliente}}",
-                                                      "description":  "Cancela agendamento usando senha do cliente."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Cancelar Agendamento pelo Barbeiro",
-                                      "request":  {
-                                                      "method":  "PATCH",
-                                                      "url":  "{{base_url}}/agendamentos/{{agendamentoId}}/cancelar/barbeiro?senhaBarbeiro={{senhaBarbeiro}}",
-                                                      "description":  "Cancela agendamento usando senha do barbeiro."
-                                                  }
-                                  },
-                                  {
-                                      "name":  "Concluir Agendamento",
-                                      "request":  {
-                                                      "method":  "PATCH",
-                                                      "url":  "{{base_url}}/agendamentos/{{agendamentoId}}/concluir?senhaBarbeiro={{senhaBarbeiro}}",
-                                                      "description":  "Conclui agendamento e incrementa pontos do cliente."
-                                                  }
-                                  }
-                              ]
-                 }
-             ],
-    "variable":  [
-                     {
-                         "key":  "base_url",
-                         "value":  "http://localhost:8080"
-                     },
-                     {
-                         "key":  "clienteId",
-                         "value":  ""
-                     },
-                     {
-                         "key":  "barbeiroId",
-                         "value":  ""
-                     },
-                     {
-                         "key":  "horarioId",
-                         "value":  ""
-                     },
-                     {
-                         "key":  "agendamentoId",
-                         "value":  ""
-                     },
-                     {
-                         "key":  "nomeCliente",
-                         "value":  "Cliente Postman"
-                     },
-                     {
-                         "key":  "nomeClienteAtualizado",
-                         "value":  "Cliente Postman Atualizado"
-                     },
-                     {
-                         "key":  "telefoneCliente",
-                         "value":  "11988880001"
-                     },
-                     {
-                         "key":  "senhaCliente",
-                         "value":  "senhaC"
-                     },
-                     {
-                         "key":  "nomeBarbeiro",
-                         "value":  "Barbeiro Postman"
-                     },
-                     {
-                         "key":  "nomeBarbeiroAtualizado",
-                         "value":  "Barbeiro Postman Atualizado"
-                     },
-                     {
-                         "key":  "especialidadeBarbeiro",
-                         "value":  "Fade"
-                     },
-                     {
-                         "key":  "especialidadeBarbeiroAtualizada",
-                         "value":  "Degrade"
-                     },
-                     {
-                         "key":  "telefoneBarbeiro",
-                         "value":  "11999990001"
-                     },
-                     {
-                         "key":  "cpfBarbeiro",
-                         "value":  "12345678900"
-                     },
-                     {
-                         "key":  "senhaBarbeiro",
-                         "value":  "senhaB"
-                     },
-                     {
-                         "key":  "dataAgendamento",
-                         "value":  "2026-12-31"
-                     },
-                     {
-                         "key":  "horaHorario",
-                         "value":  "08:00:00"
-                     },
-                     {
-                         "key":  "horaAgendamento",
-                         "value":  "09:00:00"
-                     },
-                     {
-                         "key":  "buscaCliente",
-                         "value":  "Postman"
-                     }
-                 ]
+  "info":  {
+    "_postman_id":  "9d0f7f89-ef4a-4ccf-8d8b-6f0ebf4b71e2",
+    "name":  "BarberFlow - Funcionalidades Completas",
+    "description":  "Collection completa da API BarberFlow com todas as funcionalidades de Clientes, Barbeiros, Horarios e Agendamentos.",
+    "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item":  [
+    {
+      "name":  "Clientes",
+      "item":  [
+        {
+          "name":  "Cadastrar Cliente",
+          "request":  {
+            "method":  "POST",
+            "header":  [
+              {
+                "key":  "Content-Type",
+                "value":  "application/json"
+              }
+            ],
+            "body":  {
+              "mode":  "raw",
+              "raw":  "{\n  \"nome\": \"{{nomeCliente}}\",\n  \"telefone\": \"{{telefoneCliente}}\",\n  \"senha\": \"{{senhaCliente}}\"\n}",
+              "options":  {
+                "raw":  {
+                  "language":  "json"
+                }
+              }
+            },
+            "url":  "{{base_url}}/clientes",
+            "description":  "Cria um novo cliente e salva o ID retornado em {{clienteId}}."
+          },
+          "event":  [
+            {
+              "listen":  "test",
+              "script":  {
+                "type":  "text/javascript",
+                "exec":  [
+                  "pm.test(\u0027Status 201\u0027, function () { pm.response.to.have.status(201); });",
+                  "var data = pm.response.json();",
+                  "if (data \u0026\u0026 data.id) { pm.collectionVariables.set(\u0027clienteId\u0027, String(data.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name":  "Listar Clientes",
+          "request":  {
+            "method":  "GET",
+            "url":  "{{base_url}}/clientes",
+            "description":  "Lista todos os clientes."
+          }
+        },
+        {
+          "name":  "Buscar Cliente por ID",
+          "request":  {
+            "method":  "GET",
+            "url":  "{{base_url}}/clientes/{{clienteId}}",
+            "description":  "Consulta cliente pelo ID salvo em {{clienteId}}."
+          }
+        },
+        {
+          "name":  "Buscar Cliente por Nome/Telefone",
+          "request":  {
+            "method":  "GET",
+            "url":  "{{base_url}}/clientes?busca={{buscaCliente}}",
+            "description":  "Busca cliente por nome ou telefone com o parametro busca."
+          }
+        },
+        {
+          "name":  "Atualizar Cliente",
+          "request":  {
+            "method":  "PUT",
+            "header":  [
+              {
+                "key":  "Content-Type",
+                "value":  "application/json"
+              }
+            ],
+            "body":  {
+              "mode":  "raw",
+              "raw":  "{\n  \"nome\": \"{{nomeClienteAtualizado}}\",\n  \"telefone\": \"{{telefoneCliente}}\",\n  \"senha\": \"{{senhaCliente}}\"\n}",
+              "options":  {
+                "raw":  {
+                  "language":  "json"
+                }
+              }
+            },
+            "url":  "{{base_url}}/clientes/{{clienteId}}",
+            "description":  "Atualiza dados do cliente selecionado."
+          }
+        },
+        {
+          "name":  "Remover Cliente",
+          "request":  {
+            "method":  "DELETE",
+            "url":  "{{base_url}}/clientes/{{clienteId}}",
+            "description":  "Exclui cliente pelo ID."
+          }
+        }
+      ]
+    },
+    {
+      "name":  "Barbeiros",
+      "item":  [
+        {
+          "name":  "Cadastrar Barbeiro",
+          "request":  {
+            "method":  "POST",
+            "header":  [
+              {
+                "key":  "Content-Type",
+                "value":  "application/json"
+              }
+            ],
+            "body":  {
+              "mode":  "raw",
+              "raw":  "{\n  \"nome\": \"{{nomeBarbeiro}}\",\n  \"especialidade\": \"{{especialidadeBarbeiro}}\",\n  \"telefone\": \"{{telefoneBarbeiro}}\",\n  \"senha\": \"{{senhaBarbeiro}}\",\n  \"cpf\": \"{{cpfBarbeiro}}\"\n}",
+              "options":  {
+                "raw":  {
+                  "language":  "json"
+                }
+              }
+            },
+            "url":  "{{base_url}}/barbeiros",
+            "description":  "Cria barbeiro e salva o ID em {{barbeiroId}}."
+          },
+          "event":  [
+            {
+              "listen":  "test",
+              "script":  {
+                "type":  "text/javascript",
+                "exec":  [
+                  "pm.test(\u0027Status 201\u0027, function () { pm.response.to.have.status(201); });",
+                  "var data = pm.response.json();",
+                  "if (data \u0026\u0026 data.id) { pm.collectionVariables.set(\u0027barbeiroId\u0027, String(data.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name":  "Listar Barbeiros",
+          "request":  {
+            "method":  "GET",
+            "url":  "{{base_url}}/barbeiros",
+            "description":  "Lista todos os barbeiros."
+          }
+        },
+        {
+          "name":  "Buscar Barbeiro por ID",
+          "request":  {
+            "method":  "GET",
+            "url":  "{{base_url}}/barbeiros/{{barbeiroId}}",
+            "description":  "Consulta barbeiro pelo ID salvo em {{barbeiroId}}."
+          }
+        },
+        {
+          "name":  "Atualizar Barbeiro",
+          "request":  {
+            "method":  "PUT",
+            "header":  [
+              {
+                "key":  "Content-Type",
+                "value":  "application/json"
+              }
+            ],
+            "body":  {
+              "mode":  "raw",
+              "raw":  "{\n  \"nome\": \"{{nomeBarbeiroAtualizado}}\",\n  \"especialidade\": \"{{especialidadeBarbeiroAtualizada}}\",\n  \"telefone\": \"{{telefoneBarbeiro}}\",\n  \"senha\": \"{{senhaBarbeiro}}\",\n  \"cpf\": \"{{cpfBarbeiro}}\"\n}",
+              "options":  {
+                "raw":  {
+                  "language":  "json"
+                }
+              }
+            },
+            "url":  "{{base_url}}/barbeiros/{{barbeiroId}}",
+            "description":  "Atualiza dados do barbeiro selecionado."
+          }
+        },
+        {
+          "name":  "Remover Barbeiro",
+          "request":  {
+            "method":  "DELETE",
+            "url":  "{{base_url}}/barbeiros/{{barbeiroId}}",
+            "description":  "Remove definitivamente o barbeiro do sistema."
+          }
+        }
+      ]
+    },
+    {
+      "name":  "Horarios",
+      "item":  [
+        {
+          "name":  "Cadastrar Horario Disponivel",
+          "request":  {
+            "method":  "POST",
+            "header":  [
+              {
+                "key":  "Content-Type",
+                "value":  "application/json"
+              }
+            ],
+            "body":  {
+              "mode":  "raw",
+              "raw":  "{\n  \"barbeiroid\": {{barbeiroId}},\n  \"data\": \"{{dataAgendamento}}\",\n  \"hora\": \"{{horaHorario}}\",\n  \"disponivel\": true\n}",
+              "options":  {
+                "raw":  {
+                  "language":  "json"
+                }
+              }
+            },
+            "url":  "{{base_url}}/Horarios",
+            "description":  "Cadastra horario disponivel para o barbeiro informado."
+          },
+          "event":  [
+            {
+              "listen":  "test",
+              "script":  {
+                "type":  "text/javascript",
+                "exec":  [
+                  "pm.test(\u0027Status 201\u0027, function () { pm.response.to.have.status(201); });",
+                  "var data = pm.response.json();",
+                  "if (data \u0026\u0026 data.id) { pm.collectionVariables.set(\u0027horarioId\u0027, String(data.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name":  "Listar Horarios Disponiveis",
+          "request":  {
+            "method":  "GET",
+            "url":  "{{base_url}}/Horarios/disponiveis?barbeiroId={{barbeiroId}}\u0026clienteId={{clienteId}}\u0026data={{dataAgendamento}}",
+            "description":  "Lista horarios disponiveis considerando a regra de pontos do cliente."
+          }
+        }
+      ]
+    },
+    {
+      "name":  "Agendamentos",
+      "item":  [
+        {
+          "name":  "Criar Agendamento",
+          "request":  {
+            "method":  "POST",
+            "header":  [
+              {
+                "key":  "Content-Type",
+                "value":  "application/json"
+              }
+            ],
+            "body":  {
+              "mode":  "raw",
+              "raw":  "{\n  \"nomeCliente\": \"{{nomeClienteAtualizado}}\",\n  \"telefoneCliente\": \"{{telefoneCliente}}\",\n  \"telefoneBarbeiro\": \"{{telefoneBarbeiro}}\",\n  \"data\": \"{{dataAgendamento}}\",\n  \"hora\": \"{{horaAgendamento}}\"\n}",
+              "options":  {
+                "raw":  {
+                  "language":  "json"
+                }
+              }
+            },
+            "url":  "{{base_url}}/agendamentos",
+            "description":  "Cria agendamento e salva ID em {{agendamentoId}}."
+          },
+          "event":  [
+            {
+              "listen":  "test",
+              "script":  {
+                "type":  "text/javascript",
+                "exec":  [
+                  "pm.test(\u0027Status 201\u0027, function () { pm.response.to.have.status(201); });",
+                  "var data = pm.response.json();",
+                  "if (data \u0026\u0026 data.id) { pm.collectionVariables.set(\u0027agendamentoId\u0027, String(data.id)); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name":  "Buscar Agendamento por ID",
+          "request":  {
+            "method":  "GET",
+            "url":  "{{base_url}}/agendamentos/{{agendamentoId}}",
+            "description":  "Consulta agendamento pelo ID salvo em {{agendamentoId}}."
+          }
+        },
+        {
+          "name":  "Buscar Agendamentos por Telefone do Barbeiro",
+          "request":  {
+            "method":  "GET",
+            "url":  "{{base_url}}/agendamentos/barbeiro/buscar?telefoneBarbeiro={{telefoneBarbeiro}}",
+            "description":  "Retorna todos os agendamentos do barbeiro."
+          }
+        },
+        {
+          "name":  "Listar Agendamentos Ativos do Barbeiro",
+          "request":  {
+            "method":  "GET",
+            "url":  "{{base_url}}/agendamentos/barbeiro/listar?telefoneBarbeiro={{telefoneBarbeiro}}",
+            "description":  "Lista agendamentos nao cancelados e nao concluidos."
+          }
+        },
+        {
+          "name":  "Cancelar Agendamento pelo Cliente",
+          "request":  {
+            "method":  "PATCH",
+            "url":  "{{base_url}}/agendamentos/{{agendamentoId}}/cancelar/cliente?senhaCliente={{senhaCliente}}",
+            "description":  "Cancela agendamento usando senha do cliente."
+          }
+        },
+        {
+          "name":  "Cancelar Agendamento pelo Barbeiro",
+          "request":  {
+            "method":  "PATCH",
+            "url":  "{{base_url}}/agendamentos/{{agendamentoId}}/cancelar/barbeiro?senhaBarbeiro={{senhaBarbeiro}}",
+            "description":  "Cancela agendamento usando senha do barbeiro."
+          }
+        },
+        {
+          "name":  "Concluir Agendamento",
+          "request":  {
+            "method":  "PATCH",
+            "url":  "{{base_url}}/agendamentos/{{agendamentoId}}/concluir?senhaBarbeiro={{senhaBarbeiro}}",
+            "description":  "Conclui agendamento e incrementa pontos do cliente."
+          }
+        }
+      ]
+    }
+  ],
+  "variable":  [
+    {
+      "key":  "base_url",
+      "value":  "http://localhost:8080"
+    },
+    {
+      "key":  "clienteId",
+      "value":  ""
+    },
+    {
+      "key":  "barbeiroId",
+      "value":  ""
+    },
+    {
+      "key":  "horarioId",
+      "value":  ""
+    },
+    {
+      "key":  "agendamentoId",
+      "value":  ""
+    },
+    {
+      "key":  "nomeCliente",
+      "value":  "Cliente Postman"
+    },
+    {
+      "key":  "nomeClienteAtualizado",
+      "value":  "Cliente Postman Atualizado"
+    },
+    {
+      "key":  "telefoneCliente",
+      "value":  "11988880001"
+    },
+    {
+      "key":  "senhaCliente",
+      "value":  "senhaC"
+    },
+    {
+      "key":  "nomeBarbeiro",
+      "value":  "Barbeiro Postman"
+    },
+    {
+      "key":  "nomeBarbeiroAtualizado",
+      "value":  "Barbeiro Postman Atualizado"
+    },
+    {
+      "key":  "especialidadeBarbeiro",
+      "value":  "Fade"
+    },
+    {
+      "key":  "especialidadeBarbeiroAtualizada",
+      "value":  "Degrade"
+    },
+    {
+      "key":  "telefoneBarbeiro",
+      "value":  "11999990001"
+    },
+    {
+      "key":  "cpfBarbeiro",
+      "value":  "12345678900"
+    },
+    {
+      "key":  "senhaBarbeiro",
+      "value":  "senhaB"
+    },
+    {
+      "key":  "dataAgendamento",
+      "value":  "2026-12-31"
+    },
+    {
+      "key":  "horaHorario",
+      "value":  "08:00:00"
+    },
+    {
+      "key":  "horaAgendamento",
+      "value":  "09:00:00"
+    },
+    {
+      "key":  "buscaCliente",
+      "value":  "Postman"
+    }
+  ]
 }

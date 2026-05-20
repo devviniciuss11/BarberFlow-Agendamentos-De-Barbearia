@@ -35,7 +35,7 @@ O BarberFlow centraliza o fluxo de agendamento em uma API REST com regras de neg
 ## Features entregues ate o momento da submissao
 
 - CRUD completo de clientes
-- CRUD de barbeiros com inativacao logica
+- CRUD de barbeiros com remocao permanente
 - cadastro e listagem de horarios disponiveis
 - criacao, cancelamento e conclusao de agendamentos
 - validacoes de telefone/senha e regras de conflito de horario
@@ -118,7 +118,7 @@ Com a aplicacao rodando:
 
 ## Colecao Postman
 
-- `docs/BarberFlow API Copy.postman_collection.json`
+- `docs/BarberFlow-Funcionalidades.postman_collection.json`
 - Variavel principal configurada: `{{base_url}} = http://localhost:8080`
 - Requests organizadas por recurso: `Barbeiros`, `Clientes`, `Horarios` e `Agendamentos`
 
@@ -138,7 +138,7 @@ Com a aplicacao rodando:
 - `GET /barbeiros`
 - `GET /barbeiros/{id}`
 - `PUT /barbeiros/{id}`
-- `DELETE /barbeiros/{id}` (inativacao logica)
+- `DELETE /barbeiros/{id}` (remocao permanente)
 
 ### Horarios (`/Horarios`)
 

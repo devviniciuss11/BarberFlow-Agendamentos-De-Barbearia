@@ -4,18 +4,20 @@ import com.devflows.barberflow.dto.BarbeiroRequestDTO;
 import com.devflows.barberflow.dto.BarbeiroResponseDTO;
 import com.devflows.barberflow.entity.Barbeiro;
 import com.devflows.barberflow.repository.BarbeiroRepository;
+import com.devflows.barberflow.repository.HorarioDisponivelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class BarbeiroService {
     private final BarbeiroRepository barbeiroRepository;
+    private final HorarioDisponivelRepository horarioDisponivelRepository;
 
     public BarbeiroResponseDTO cadastrar(BarbeiroRequestDTO dto) {
         if (barbeiroRepository.existsByTelefone(dto.telefone())) {
@@ -32,7 +34,6 @@ public class BarbeiroService {
                 .telefone(dto.telefone())
                 .senha(dto.senha())
                 .cpf(dto.cpf())
-                .ativo(true)
                 .build();
 
         return toResponse(barbeiroRepository.save(barbeiro));
@@ -45,10 +46,10 @@ public class BarbeiroService {
     }
 
     public List<BarbeiroResponseDTO> listarTodos() {
-        return barbeiroRepository.findAll()
+        return barbeiroRepository.buscarPorNome("")
                 .stream()
                 .map(this::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public BarbeiroResponseDTO atualizar(Long id, BarbeiroRequestDTO dto) {
@@ -79,12 +80,13 @@ public class BarbeiroService {
         return toResponse(barbeiroRepository.save(barbeiro));
     }
 
+    @Transactional
     public void deletar(Long id) {
         Barbeiro barbeiro = barbeiroRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Barbeiro nao encontrado. ID: " + id));
 
-        barbeiro.setAtivo(false);
-        barbeiroRepository.save(barbeiro);
+        horarioDisponivelRepository.deleteByBarbeiroId(barbeiro.getId());
+        barbeiroRepository.delete(barbeiro);
     }
 
     private BarbeiroResponseDTO toResponse(Barbeiro barbeiro) {
@@ -93,8 +95,7 @@ public class BarbeiroService {
                 barbeiro.getEspecialidade(),
                 barbeiro.getNome(),
                 barbeiro.getTelefone(),
-                barbeiro.getCpf(),
-                barbeiro.getAtivo()
+                barbeiro.getCpf()
         );
     }
 }

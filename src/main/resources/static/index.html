@@ -12,306 +12,302 @@
 </head>
 
 <body>
-    <header class="header">
-        <section>
-            <a href="#" class="logo">
-                <img src="img/pngwing.com.png" width="80" alt="Logo">
-            </a>
+<header class="header">
+    <section>
+        <a href="#" class="logo">
+            <img src="img/pngwing.com.png" width="80" alt="Logo">
+        </a>
 
-            <nav class="navbarber">
-                <a href="#home">Home</a>
-                <a href="#about">Sobre</a>
-                <a href="#clientes-section">Clientes</a>
-                <a href="#barbeiros-section">Barbeiros</a>
-                <a href="#agendamentos-section">Agendamentos</a>
-            </nav>
+        <nav class="navbarber">
+            <a href="#home">Home</a>
+            <a href="#about">Sobre</a>
+            <a href="#clientes-section">Clientes</a>
+            <a href="#barbeiros-section">Barbeiros</a>
+            <a href="#agendamentos-section">Agendamentos</a>
+        </nav>
 
-            <div class="icons">
-                <img width="30" height="30" src="https://img.icons8.com/ios/30/ffffff/search--v1.png" alt="search--v1"/>
-                <img width="30" height="30" src="https://img.icons8.com/ios/30/ffffff/cut.png" alt="cut"/>
+        <div class="icons">
+            <img width="30" height="30" src="https://img.icons8.com/ios/30/ffffff/cut.png" alt="cut"/>
+        </div>
+    </section>
+</header>
+
+<div class="home-container">
+    <section id="home">
+        <div class="content">
+            <h3> SUA APARENCIA, NOSSO ESTILO </h3>
+            <p>Transforme seu visual com quem entende do assunto. Na BarberFlow, oferecemos cortes precisos, barbas alinhadas e um atendimento de primeira para voce sair daqui com a confianca la em cima. Descubra a sua melhor versao.</p>
+            <a href="#agendamentos-section" class="btn">Corte agora</a>
+        </div>
+    </section>
+</div>
+
+<section class="about" id="about">
+    <h2 class="title">Sobre <span>Nos</span></h2>
+    <div class="row">
+        <div class="container-image">
+            <img src="./img/barberflow.png.png" alt="Sobre nos">
+        </div>
+        <div class="content">
+            <h3>O que torna nosso corte especial</h3>
+            <p>Na BarberFlow, acreditamos que um corte de cabelo vai muito alem da tesoura e da navalha: e a expressao da sua identidade. Nossa missao e elevar o seu estilo atraves de um atendimento exclusivo, combinando o respeito pela barbearia classica com as tendencias mais modernas do mercado.</p>
+            <p>Nosso espaco foi criado para ser o seu momento de pausa na rotina. Relaxe, aproveite o ambiente e deixe a sua aparencia nas maos de quem realmente entende do assunto. Da barba milimetricamente alinhada ao degrade impecavel, o seu estilo e a nossa maior prioridade.</p>
+            <a href="#" class="btn">Saiba mais</a>
+        </div>
+    </div>
+</section>
+
+<section class="services" id="services">
+    <h2 class="title">Gerenciamento do <span>Sistema</span></h2>
+
+    <div id="api-feedback" class="api-feedback" aria-live="polite"></div>
+
+    <h3 class="subtitle" id="clientes-section">Area do Cliente</h3>
+    <div class="box-container">
+        <div class="box form-box">
+            <h3>Cadastrar Cliente</h3>
+            <form id="form-cliente-criar">
+                <input type="text" name="nome" placeholder="Nome completo" class="input-field" required>
+                <input type="tel" name="telefone" placeholder="Telefone" class="input-field" required>
+                <input type="password" name="senha" placeholder="Senha" class="input-field" required>
+                <button type="submit" class="btn-form">Cadastrar</button>
+            </form>
+        </div>
+
+        <div class="box form-box">
+            <h3>Listar Clientes</h3>
+            <p style="color: #fff; font-size: 1.4rem; margin-bottom: 1.5rem;">Exibe todos os clientes cadastrados.</p>
+            <form id="form-cliente-listar">
+                <button type="submit" class="btn-form">Listar Todos</button>
+            </form>
+            <div class="list-meta" id="lista-clientes-meta"></div>
+            <div class="list-output" id="lista-clientes-output">
+                <p class="list-empty">Clique em "Listar Todos" para carregar.</p>
             </div>
-        </section>
-    </header>
+        </div>
 
-    <div class="home-container">
-        <section id="home">
-            <div class="content">
-                <h3> SUA APARENCIA, NOSSO ESTILO </h3>
-                <p>Transforme seu visual com quem entende do assunto. Na BarberFlow, oferecemos cortes precisos, barbas alinhadas e um atendimento de primeira para voce sair daqui com a confianca la em cima. Descubra a sua melhor versao.</p>
-                <a href="#agendamentos-section" class="btn">Corte agora</a>
+        <div class="box form-box">
+            <h3>Buscar por ID</h3>
+            <form id="form-cliente-buscar-id">
+                <input type="text" name="id" placeholder="ID do cliente" class="input-field" required>
+                <button type="submit" class="btn-form">Buscar Cliente</button>
+            </form>
+            <div class="list-meta" id="cliente-id-meta"></div>
+            <div class="list-output" id="cliente-id-output">
+                <p class="list-empty">Digite um ID e clique em buscar.</p>
             </div>
-        </section>
+        </div>
+
+        <div class="box form-box">
+            <h3>Buscar por Nome / Tel</h3>
+            <form id="form-cliente-busca">
+                <input type="text" name="busca" placeholder="Nome ou Telefone" class="input-field" required>
+                <button type="submit" class="btn-form">Buscar Cliente</button>
+            </form>
+            <div class="list-meta" id="busca-clientes-meta"></div>
+            <div class="list-output" id="busca-clientes-output">
+                <p class="list-empty">Resultados da busca aparecem aqui.</p>
+            </div>
+        </div>
+
+        <div class="box form-box">
+            <h3>Atualizar Dados</h3>
+            <form id="form-cliente-atualizar">
+                <input type="text" name="id" placeholder="ID do cliente" class="input-field" required>
+                <input type="text" name="nome" placeholder="Novo Nome (opcional)" class="input-field">
+                <input type="tel" name="telefone" placeholder="Novo Telefone (opcional)" class="input-field">
+                <input type="password" name="senha" placeholder="Senha atual do cliente (obrigatoria)" class="input-field" required>
+                <button type="submit" class="btn-form">Atualizar Cadastro</button>
+            </form>
+        </div>
+
+        <div class="box form-box">
+            <h3>Remover Cliente</h3>
+            <form id="form-cliente-remover">
+                <input type="text" name="id" placeholder="ID do cliente" class="input-field" required>
+                <button type="submit" class="btn-form btn-danger">Excluir Cadastro</button>
+            </form>
+        </div>
+
+        <div class="box form-box">
+            <h3>Ranking (Fidelidade)</h3>
+            <p style="color: #fff; font-size: 1.4rem; margin-bottom: 1.5rem;">Clientes com mais <strong>Pontos</strong> tem prioridade.</p>
+            <form id="form-cliente-ranking">
+                <button type="submit" class="btn-form">Atualizar Ranking</button>
+            </form>
+            <ul class="ranking-list" id="ranking-lista"></ul>
+        </div>
     </div>
 
-    <section class="about" id="about">
-        <h2 class="title">Sobre <span>Nos</span></h2>
-        <div class="row">
-            <div class="container-image">
-                <img src="./img/barberflow.png.png" alt="Sobre nos">
-            </div>
-            <div class="content">
-                <h3>O que torna nosso corte especial</h3>
-                <p>Na BarberFlow, acreditamos que um corte de cabelo vai muito alem da tesoura e da navalha: e a expressao da sua identidade. Nossa missao e elevar o seu estilo atraves de um atendimento exclusivo, combinando o respeito pela barbearia classica com as tendencias mais modernas do mercado.</p>
-                <p>Nosso espaco foi criado para ser o seu momento de pausa na rotina. Relaxe, aproveite o ambiente e deixe a sua aparencia nas maos de quem realmente entende do assunto. Da barba milimetricamente alinhada ao degrade impecavel, o seu estilo e a nossa maior prioridade.</p>
-                <a href="#" class="btn">Saiba mais</a>
-            </div>
+    <h3 class="subtitle" id="barbeiros-section">Area do Barbeiro</h3>
+    <div class="box-container">
+        <div class="box form-box">
+            <h3>Cadastrar Barbeiro</h3>
+            <form id="form-barbeiro-criar">
+                <input type="text" name="nome" placeholder="Nome completo" class="input-field" required>
+                <input type="text" name="especialidade" placeholder="Especialidade (Ex: Corte e Barba)" class="input-field" required>
+                <input type="tel" name="telefone" placeholder="Telefone" class="input-field" required>
+                <input type="text" name="cpf" placeholder="CPF" class="input-field" required>
+                <input type="password" name="senha" placeholder="Senha" class="input-field" required>
+                <button type="submit" class="btn-form">Cadastrar</button>
+            </form>
         </div>
-    </section>
 
-    <section class="services" id="services">
-        <h2 class="title">Gerenciamento do <span>Sistema</span></h2>
-
-        <div id="api-feedback" class="api-feedback" aria-live="polite"></div>
-
-        <h3 class="subtitle" id="clientes-section">Area do Cliente</h3>
-        <div class="box-container">
-            <div class="box form-box">
-                <h3>Cadastrar Cliente</h3>
-                <form id="form-cliente-criar">
-                    <input type="text" name="nome" placeholder="Nome completo" class="input-field" required>
-                    <input type="tel" name="telefone" placeholder="Telefone" class="input-field" required>
-                    <input type="password" name="senha" placeholder="Senha" class="input-field" required>
-                    <button type="submit" class="btn-form">Cadastrar</button>
-                </form>
-            </div>
-
-            <div class="box form-box">
-                <h3>Listar Clientes</h3>
-                <p style="color: #fff; font-size: 1.4rem; margin-bottom: 1.5rem;">Exibe todos os clientes cadastrados.</p>
-                <form id="form-cliente-listar">
-                    <button type="submit" class="btn-form">Listar Todos</button>
-                </form>
-                <div class="list-meta" id="lista-clientes-meta"></div>
-                <div class="list-output" id="lista-clientes-output">
-                    <p class="list-empty">Clique em "Listar Todos" para carregar.</p>
-                </div>
-            </div>
-
-            <div class="box form-box">
-                <h3>Buscar por ID</h3>
-                <form id="form-cliente-buscar-id">
-                    <input type="text" name="id" placeholder="ID do cliente" class="input-field" required>
-                    <button type="submit" class="btn-form">Buscar Cliente</button>
-                </form>
-                <div class="list-meta" id="cliente-id-meta"></div>
-                <div class="list-output" id="cliente-id-output">
-                    <p class="list-empty">Digite um ID e clique em buscar.</p>
-                </div>
-            </div>
-
-            <div class="box form-box">
-                <h3>Buscar por Nome / Tel</h3>
-                <form id="form-cliente-busca">
-                    <input type="text" name="busca" placeholder="Nome ou Telefone" class="input-field" required>
-                    <button type="submit" class="btn-form">Buscar Cliente</button>
-                </form>
-                <div class="list-meta" id="busca-clientes-meta"></div>
-                <div class="list-output" id="busca-clientes-output">
-                    <p class="list-empty">Resultados da busca aparecem aqui.</p>
-                </div>
-            </div>
-
-            <div class="box form-box">
-                <h3>Atualizar Dados</h3>
-                <form id="form-cliente-atualizar">
-                    <input type="text" name="id" placeholder="ID do cliente" class="input-field" required>
-                    <input type="text" name="nome" placeholder="Novo Nome (opcional)" class="input-field">
-                    <input type="tel" name="telefone" placeholder="Novo Telefone (opcional)" class="input-field">
-                    <input type="password" name="senha" placeholder="Senha atual do cliente (obrigatoria)" class="input-field" required>
-                    <button type="submit" class="btn-form">Atualizar Cadastro</button>
-                </form>
-            </div>
-
-            <div class="box form-box">
-                <h3>Remover Cliente</h3>
-                <form id="form-cliente-remover">
-                    <input type="text" name="id" placeholder="ID do cliente" class="input-field" required>
-                    <button type="submit" class="btn-form btn-danger">Excluir Cadastro</button>
-                </form>
-            </div>
-
-            <div class="box form-box">
-                <h3>Ranking (Fidelidade)</h3>
-                <p style="color: #fff; font-size: 1.4rem; margin-bottom: 1.5rem;">Clientes com mais <strong>Pontos</strong> tem prioridade.</p>
-                <form id="form-cliente-ranking">
-                    <button type="submit" class="btn-form">Atualizar Ranking</button>
-                </form>
-                <ul class="ranking-list" id="ranking-lista"></ul>
+        <div class="box form-box">
+            <h3>Listar Barbeiros</h3>
+            <p style="color: #fff; font-size: 1.4rem; margin-bottom: 1.5rem;">Exibe todos os barbeiros da equipe.</p>
+            <form id="form-barbeiro-listar">
+                <button type="submit" class="btn-form">Listar Todos</button>
+            </form>
+            <div class="list-meta" id="lista-barbeiros-meta"></div>
+            <div class="list-output" id="lista-barbeiros-output">
+                <p class="list-empty">Clique em "Listar Todos" para carregar.</p>
             </div>
         </div>
 
-        <h3 class="subtitle" id="barbeiros-section">Area do Barbeiro</h3>
-        <div class="box-container">
-            <div class="box form-box">
-                <h3>Cadastrar Barbeiro</h3>
-                <form id="form-barbeiro-criar">
-                    <input type="text" name="nome" placeholder="Nome completo" class="input-field" required>
-                    <input type="text" name="especialidade" placeholder="Especialidade (Ex: Corte e Barba)" class="input-field" required>
-                    <input type="tel" name="telefone" placeholder="Telefone" class="input-field" required>
-                    <input type="text" name="cpf" placeholder="CPF" class="input-field" required>
-                    <input type="password" name="senha" placeholder="Senha" class="input-field" required>
-                    <button type="submit" class="btn-form">Cadastrar</button>
-                </form>
-            </div>
-
-            <div class="box form-box">
-                <h3>Listar Barbeiros</h3>
-                <p style="color: #fff; font-size: 1.4rem; margin-bottom: 1.5rem;">Exibe todos os barbeiros da equipe.</p>
-                <form id="form-barbeiro-listar">
-                    <button type="submit" class="btn-form">Listar Todos</button>
-                </form>
-                <div class="list-meta" id="lista-barbeiros-meta"></div>
-                <div class="list-output" id="lista-barbeiros-output">
-                    <p class="list-empty">Clique em "Listar Todos" para carregar.</p>
-                </div>
-            </div>
-
-            <div class="box form-box">
-                <h3>Buscar por ID</h3>
-                <form id="form-barbeiro-buscar-id">
-                    <input type="text" name="id" placeholder="ID do barbeiro" class="input-field" required>
-                    <button type="submit" class="btn-form">Buscar Barbeiro</button>
-                </form>
-                <div class="list-meta" id="barbeiro-id-meta"></div>
-                <div class="list-output" id="barbeiro-id-output">
-                    <p class="list-empty">Digite um ID e clique em buscar.</p>
-                </div>
-            </div>
-
-            <div class="box form-box">
-                <h3>Atualizar Dados</h3>
-                <form id="form-barbeiro-atualizar">
-                    <input type="text" name="id" placeholder="ID do barbeiro" class="input-field" required>
-                    <input type="text" name="nome" placeholder="Nome (obrigatorio)" class="input-field" required>
-                    <input type="text" name="especialidade" placeholder="Especialidade (obrigatoria)" class="input-field" required>
-                    <input type="tel" name="telefone" placeholder="Telefone (obrigatorio)" class="input-field" required>
-                    <input type="text" name="cpf" placeholder="CPF (obrigatorio)" class="input-field" required>
-                    <input type="password" name="senha" placeholder="Senha (obrigatoria)" class="input-field" required>
-                    <button type="submit" class="btn-form">Atualizar Cadastro</button>
-                </form>
-            </div>
-
-            <div class="box form-box">
-                <h3>Remover Barbeiro</h3>
-                <form id="form-barbeiro-remover">
-                    <input type="text" name="id" placeholder="ID do barbeiro" class="input-field" required>
-                    <button type="submit" class="btn-form btn-danger">Excluir Cadastro</button>
-                </form>
+        <div class="box form-box">
+            <h3>Buscar por ID</h3>
+            <form id="form-barbeiro-buscar-id">
+                <input type="text" name="id" placeholder="ID do barbeiro" class="input-field" required>
+                <button type="submit" class="btn-form">Buscar Barbeiro</button>
+            </form>
+            <div class="list-meta" id="barbeiro-id-meta"></div>
+            <div class="list-output" id="barbeiro-id-output">
+                <p class="list-empty">Digite um ID e clique em buscar.</p>
             </div>
         </div>
 
-        <h3 class="subtitle">Horarios Disponiveis</h3>
-        <div class="box-container">
-            <div class="box form-box">
-                <h3>Cadastrar Horario</h3>
-                <form id="form-horario-criar">
-                    <input type="text" name="barbeiroid" placeholder="ID do barbeiro" class="input-field" required>
-                    <input type="date" name="data" class="input-field" required>
-                    <input type="time" name="hora" class="input-field" required>
-                    <button type="submit" class="btn-form">Disponibilizar Horario</button>
-                </form>
-            </div>
+        <div class="box form-box">
+            <h3>Atualizar Dados</h3>
+            <form id="form-barbeiro-atualizar">
+                <input type="text" name="id" placeholder="ID do barbeiro" class="input-field" required>
+                <input type="text" name="nome" placeholder="Nome (obrigatorio)" class="input-field" required>
+                <input type="text" name="especialidade" placeholder="Especialidade (obrigatoria)" class="input-field" required>
+                <input type="tel" name="telefone" placeholder="Telefone (obrigatorio)" class="input-field" required>
+                <input type="text" name="cpf" placeholder="CPF (obrigatorio)" class="input-field" required>
+                <input type="password" name="senha" placeholder="Senha (obrigatoria)" class="input-field" required>
+                <button type="submit" class="btn-form">Atualizar Cadastro</button>
+            </form>
+        </div>
 
-            <div class="box form-box">
-                <h3>Listar Horarios Disponiveis</h3>
-                <form id="form-horario-listar">
-                    <input type="text" name="barbeiroId" placeholder="ID do barbeiro" class="input-field" required>
-                    <input type="text" name="clienteId" placeholder="ID do cliente" class="input-field" required>
-                    <input type="date" name="data" class="input-field" required>
-                    <button type="submit" class="btn-form">Listar Horarios Livres</button>
-                </form>
-                <div class="list-meta" id="lista-horarios-meta"></div>
-                <div class="list-output" id="lista-horarios-output">
-                    <p class="list-empty">Informe barbeiro, cliente e data para carregar.</p>
-                </div>
+        <div class="box form-box">
+            <h3>Remover Barbeiro</h3>
+            <form id="form-barbeiro-remover">
+                <input type="text" name="id" placeholder="ID do barbeiro" class="input-field" required>
+                <button type="submit" class="btn-form btn-danger">Excluir Cadastro</button>
+            </form>
+        </div>
+    </div>
+
+    <h3 class="subtitle">Horarios Disponiveis</h3>
+    <div class="box-container">
+        <div class="box form-box">
+            <h3>Cadastrar Horario</h3>
+            <form id="form-horario-criar">
+                <input type="text" name="barbeiroid" placeholder="ID do barbeiro" class="input-field" required>
+                <input type="date" name="data" class="input-field" required>
+                <input type="time" name="hora" class="input-field" required>
+                <button type="submit" class="btn-form">Disponibilizar Horario</button>
+            </form>
+        </div>
+
+        <div class="box form-box">
+            <h3>Listar Horarios Disponiveis</h3>
+            <form id="form-horario-listar">
+                <input type="text" name="barbeiroId" placeholder="ID do barbeiro" class="input-field" required>
+                <input type="text" name="clienteId" placeholder="ID do cliente" class="input-field" required>
+                <input type="date" name="data" class="input-field" required>
+                <button type="submit" class="btn-form">Listar Horarios Livres</button>
+            </form>
+            <div class="list-meta" id="lista-horarios-meta"></div>
+            <div class="list-output" id="lista-horarios-output">
+                <p class="list-empty">Informe barbeiro, cliente e data para carregar.</p>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="subtitle" id="agendamentos-section">Agendamentos e Servicos</h3>
+    <div class="box-container">
+        <div class="box form-box">
+            <h3>Agendar Horario</h3>
+            <form id="form-agendamento-criar">
+                <input type="text" name="nomeCliente" placeholder="Nome do cliente" class="input-field" required>
+                <input type="tel" name="telefoneCliente" placeholder="Telefone do cliente" class="input-field" required>
+                <input type="tel" name="telefoneBarbeiro" placeholder="Telefone do barbeiro" class="input-field" required>
+                <input type="date" name="data" class="input-field" required>
+                <input type="time" name="hora" class="input-field" required>
+                <button type="submit" class="btn-form">Confirmar Agendamento</button>
+            </form>
+        </div>
+
+        <div class="box form-box">
+            <h3>Buscar Agendamentos (Barbeiro)</h3>
+            <form id="form-agendamento-listar-barbeiro">
+                <input type="tel" name="telefoneBarbeiro" placeholder="Telefone do barbeiro" class="input-field" required>
+                <button type="submit" class="btn-form">Listar Agendamentos</button>
+            </form>
+            <div class="list-meta" id="lista-agendamentos-meta"></div>
+            <div class="list-output" id="lista-agendamentos-output">
+                <p class="list-empty">Digite o telefone do barbeiro para listar.</p>
             </div>
         </div>
 
-        <h3 class="subtitle" id="agendamentos-section">Agendamentos e Servicos</h3>
-        <div class="box-container">
-            <div class="box form-box">
-                <h3>Agendar Horario</h3>
-                <form id="form-agendamento-criar">
-                    <input type="text" name="nomeCliente" placeholder="Nome do cliente" class="input-field" required>
-                    <input type="tel" name="telefoneCliente" placeholder="Telefone do cliente" class="input-field" required>
-                    <input type="tel" name="telefoneBarbeiro" placeholder="Telefone do barbeiro" class="input-field" required>
-                    <input type="date" name="data" class="input-field" required>
-                    <input type="time" name="hora" class="input-field" required>
-                    <button type="submit" class="btn-form">Confirmar Agendamento</button>
-                </form>
-            </div>
-
-            <div class="box form-box">
-                <h3>Buscar Agendamentos (Barbeiro)</h3>
-                <form id="form-agendamento-listar-barbeiro">
-                    <input type="tel" name="telefoneBarbeiro" placeholder="Telefone do barbeiro" class="input-field" required>
-                    <button type="submit" class="btn-form">Listar Agendamentos</button>
-                </form>
-                <div class="list-meta" id="lista-agendamentos-meta"></div>
-                <div class="list-output" id="lista-agendamentos-output">
-                    <p class="list-empty">Digite o telefone do barbeiro para listar.</p>
-                </div>
-            </div>
-
-            <div class="box form-box">
-                <h3>Concluir Servico</h3>
-                <p style="color: #fff; font-size: 1.2rem; margin-bottom: 1rem;">Gera +1 AgendamentoPoint para o cliente.</p>
-                <form id="form-agendamento-concluir">
-                    <input type="text" name="id" placeholder="ID do agendamento" class="input-field" required>
-                    <input type="password" name="senhaBarbeiro" placeholder="Senha do barbeiro" class="input-field" required>
-                    <button type="submit" class="btn-form btn-success">Marcar como Concluido</button>
-                </form>
-            </div>
-
-            <div class="box form-box">
-                <h3>Cancelar Agendamento Sendo Cliente</h3>
-                <form id="form-agendamento-cancelar-cliente">
-                    <input type="text" name="id" placeholder="ID do agendamento" class="input-field" required>
-                    <input type="password" name="senhaCliente" placeholder="Senha do cliente" class="input-field" required>
-                    <button type="submit" class="btn-form btn-danger">Cancelar Agendamento</button>
-                </form>
-            </div>
-
-            <div class="box form-box">
-                <h3>Cancelar Agendamento Sendo Barbeiro</h3>
-                <form id="form-agendamento-cancelar-barbeiro">
-                    <input type="text" name="id" placeholder="ID do agendamento" class="input-field" required>
-                    <input type="password" name="senhaBarbeiro" placeholder="Senha do barbeiro" class="input-field" required>
-                    <button type="submit" class="btn-form btn-danger">Cancelar Agendamento</button>
-                </form>
-            </div>
+        <div class="box form-box">
+            <h3>Concluir Servico</h3>
+            <p style="color: #fff; font-size: 1.2rem; margin-bottom: 1rem;">Gera +1 AgendamentoPoint para o cliente.</p>
+            <form id="form-agendamento-concluir">
+                <input type="text" name="id" placeholder="ID do agendamento" class="input-field" required>
+                <input type="password" name="senhaBarbeiro" placeholder="Senha do barbeiro" class="input-field" required>
+                <button type="submit" class="btn-form btn-success">Marcar como Concluido</button>
+            </form>
         </div>
 
-        <div class="api-output-wrapper">
-            <h3 class="subtitle">Saida da API</h3>
-            <pre class="api-output" id="api-output">Nenhuma acao executada ainda.</pre>
+        <div class="box form-box">
+            <h3>Cancelar Agendamento Sendo Cliente</h3>
+            <form id="form-agendamento-cancelar-cliente">
+                <input type="text" name="id" placeholder="ID do agendamento" class="input-field" required>
+                <input type="password" name="senhaCliente" placeholder="Senha do cliente" class="input-field" required>
+                <button type="submit" class="btn-form btn-danger">Cancelar Agendamento</button>
+            </form>
         </div>
-    </section>
 
-    <section class="footer" id="footer">
-        <div class="footer-content">
-            <div class="hours">
-                <h3>Atendimento</h3>
-                <p>Segunda a Sabado</p>
-                <p>Das 07:00 ate 20:00</p>
-            </div>
-            <div class="social-links">
-                <h3>Nossas Redes</h3>
-                <div class="icons">
-                    <a href="https://www.instagram.com/igor.gustavo.br577/" target="_blank">
-                        <img width="50" height="50" src="https://img.icons8.com/ios/50/ffffff/instagram-new--v1.png" alt="Instagram"/>
-                    </a>
-                    <a href="https://wa.me/558182567110?text=Ola,%20gostaria%20de%20conversar%20com%20o%20suporte%20da%20barberflow" target="_blank">
-                        <img width="50" height="50" src="https://img.icons8.com/ios/50/ffffff/whatsapp--v1.png" alt="WhatsApp"/>
-                    </a>
-                </div>
-            </div>
+        <div class="box form-box">
+            <h3>Cancelar Agendamento Sendo Barbeiro</h3>
+            <form id="form-agendamento-cancelar-barbeiro">
+                <input type="text" name="id" placeholder="ID do agendamento" class="input-field" required>
+                <input type="password" name="senhaBarbeiro" placeholder="Senha do barbeiro" class="input-field" required>
+                <button type="submit" class="btn-form btn-danger">Cancelar Agendamento</button>
+            </form>
         </div>
-        <div class="credit">
-            Criado por <span>BarberFlow</span> | Todos os direitos reservados.
-        </div>
-    </section>
+    </div>
 
-    <script src="app.js"></script>
+</section>
+
+<section class="footer" id="footer">
+    <div class="footer-content">
+        <div class="hours">
+            <h3>Atendimento</h3>
+            <p>Segunda a Sabado</p>
+            <p>Das 07:00 ate 20:00</p>
+        </div>
+        <div class="social-links">
+            <h3>Nossas Redes</h3>
+            <div class="icons">
+                <a href="https://www.instagram.com/igor.gustavo.br577/" target="_blank">
+                    <img width="50" height="50" src="https://img.icons8.com/ios/50/ffffff/instagram-new--v1.png" alt="Instagram"/>
+                </a>
+                <a href="https://wa.me/558182567110?text=Ola,%20gostaria%20de%20conversar%20com%20o%20suporte%20da%20barberflow" target="_blank">
+                    <img width="50" height="50" src="https://img.icons8.com/ios/50/ffffff/whatsapp--v1.png" alt="WhatsApp"/>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="credit">
+        Criado por <span>BarberFlow</span> | Todos os direitos reservados.
+    </div>
+</section>
+
+<script src="app.js"></script>
 </body>
 </html>
+

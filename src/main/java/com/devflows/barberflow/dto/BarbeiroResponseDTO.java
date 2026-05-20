@@ -13,8 +13,5 @@ public record BarbeiroResponseDTO(
         @Schema(description = "Telefone do barbeiro.", example = "11999990001")
         String telefone,
         @Schema(description = "CPF do barbeiro.", example = "12345678900")
-        String cpf,
-        @Schema(description = "Status de atividade do barbeiro.", example = "true")
-        Boolean ativo
+        String cpf
 ){}
-

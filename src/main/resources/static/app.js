@@ -3,7 +3,6 @@
     : "http://localhost:8080";
 
 const feedbackEl = document.getElementById("api-feedback");
-const outputEl = document.getElementById("api-output");
 const rankingEl = document.getElementById("ranking-lista");
 const clientesListEl = document.getElementById("lista-clientes-output");
 const clientesBuscaEl = document.getElementById("busca-clientes-output");
@@ -27,15 +26,6 @@ function showFeedback(message, type = "success") {
 
     feedbackEl.textContent = message;
     feedbackEl.className = `api-feedback ${type}`;
-}
-
-function showOutput(title, data) {
-    if (!outputEl) {
-        return;
-    }
-
-    const body = data === undefined ? "" : JSON.stringify(data, null, 2);
-    outputEl.textContent = `${title}\n\n${body}`.trim();
 }
 
 function escapeHtml(value) {
@@ -93,10 +83,10 @@ function formatCliente(cliente) {
     const actions = `
         <div class="quick-actions">
             ${quickFillButton("clienteAtualizar", {
-                id: cliente.id ?? "",
-                nome: cliente.nome ?? "",
-                telefone: cliente.telefone ?? ""
-            }, "Preencher Atualizar")}
+        id: cliente.id ?? "",
+        nome: cliente.nome ?? "",
+        telefone: cliente.telefone ?? ""
+    }, "Preencher Atualizar")}
             ${quickFillButton("clienteRemover", { id: cliente.id ?? "" }, "Preencher Remover")}
         </div>
     `;
@@ -117,12 +107,12 @@ function formatBarbeiro(barbeiro) {
     const actions = `
         <div class="quick-actions">
             ${quickFillButton("barbeiroAtualizar", {
-                id: barbeiro.id ?? "",
-                nome: barbeiro.nome ?? "",
-                especialidade: barbeiro.especialidade ?? "",
-                telefone: barbeiro.telefone ?? "",
-                cpf: barbeiro.cpf ?? ""
-            }, "Preencher Atualizar")}
+        id: barbeiro.id ?? "",
+        nome: barbeiro.nome ?? "",
+        especialidade: barbeiro.especialidade ?? "",
+        telefone: barbeiro.telefone ?? "",
+        cpf: barbeiro.cpf ?? ""
+    }, "Preencher Atualizar")}
             ${quickFillButton("barbeiroRemover", { id: barbeiro.id ?? "" }, "Preencher Remover")}
         </div>
     `;
@@ -134,7 +124,6 @@ function formatBarbeiro(barbeiro) {
                 <span><b>Especialidade:</b> ${escapeHtml(barbeiro.especialidade ?? "-")}</span>
                 <span><b>Telefone:</b> ${escapeHtml(barbeiro.telefone ?? "-")}</span>
                 <span><b>CPF:</b> ${escapeHtml(barbeiro.cpf ?? "-")}</span>
-                <span>${statusChip(barbeiro.ativo ? "Ativo" : "Inativo", !!barbeiro.ativo)}</span>
             </div>
             ${actions}
         </div>
@@ -343,7 +332,6 @@ bindForm("form-cliente-criar", async (form) => {
 
     const response = await request("/clientes", { method: "POST", body: payload });
     showFeedback("Cliente cadastrado com sucesso.", "success");
-    showOutput("Cliente cadastrado", response);
     form.reset();
     const clientes = await atualizarListaClientes();
     renderRanking(clientes);
@@ -352,7 +340,6 @@ bindForm("form-cliente-criar", async (form) => {
 bindForm("form-cliente-listar", async () => {
     const response = await atualizarListaClientes();
     showFeedback("Lista de clientes carregada.", "success");
-    showOutput("Clientes", response);
     renderRanking(response);
 });
 
@@ -362,7 +349,6 @@ bindForm("form-cliente-buscar-id", async (form) => {
     try {
         const response = await request(`/clientes/${id}`);
         showFeedback("Cliente encontrado.", "success");
-        showOutput("Cliente por ID", response);
         renderList(clienteIdEl, [response], formatCliente, "Cliente nao encontrado.", clienteIdMetaEl, "cliente");
     } catch (error) {
         renderList(clienteIdEl, [], formatCliente, "Nenhum cliente encontrado para o ID informado.", clienteIdMetaEl, "cliente");
@@ -376,7 +362,6 @@ bindForm("form-cliente-busca", async (form) => {
     try {
         const response = await request("/clientes", { query: { busca } });
         showFeedback("Busca realizada com sucesso.", "success");
-        showOutput("Busca de clientes", response);
         renderList(clientesBuscaEl, response, formatCliente, "Nenhum cliente encontrado.", clientesBuscaMetaEl, "resultado");
     } catch (error) {
         renderList(clientesBuscaEl, [], formatCliente, "Nenhum cliente encontrado para essa busca.", clientesBuscaMetaEl, "resultado");
@@ -407,7 +392,6 @@ bindForm("form-cliente-atualizar", async (form) => {
     });
 
     showFeedback("Cliente atualizado com sucesso.", "success");
-    showOutput("Cliente atualizado", response);
     form.reset();
     const clientes = await atualizarListaClientes();
     renderRanking(clientes);
@@ -417,7 +401,6 @@ bindForm("form-cliente-remover", async (form) => {
     const id = toNumber(readValue(form, "id"), "ID do cliente");
     await request(`/clientes/${id}`, { method: "DELETE" });
     showFeedback("Cliente removido com sucesso.", "success");
-    showOutput("Cliente removido", { id, status: "removido" });
     form.reset();
     const clientes = await atualizarListaClientes();
     renderRanking(clientes);
@@ -427,7 +410,6 @@ bindForm("form-cliente-ranking", async () => {
     const clientes = await atualizarListaClientes();
     renderRanking(clientes);
     showFeedback("Ranking atualizado.", "success");
-    showOutput("Ranking de clientes", clientes);
 });
 
 bindForm("form-barbeiro-criar", async (form) => {
@@ -445,7 +427,6 @@ bindForm("form-barbeiro-criar", async (form) => {
     });
 
     showFeedback("Barbeiro cadastrado com sucesso.", "success");
-    showOutput("Barbeiro cadastrado", response);
     form.reset();
     await atualizarListaBarbeiros();
 });
@@ -453,7 +434,6 @@ bindForm("form-barbeiro-criar", async (form) => {
 bindForm("form-barbeiro-listar", async () => {
     const response = await atualizarListaBarbeiros();
     showFeedback("Lista de barbeiros carregada.", "success");
-    showOutput("Barbeiros", response);
 });
 
 bindForm("form-barbeiro-buscar-id", async (form) => {
@@ -462,7 +442,6 @@ bindForm("form-barbeiro-buscar-id", async (form) => {
     try {
         const response = await request(`/barbeiros/${id}`);
         showFeedback("Barbeiro encontrado.", "success");
-        showOutput("Barbeiro por ID", response);
         renderList(barbeiroIdEl, [response], formatBarbeiro, "Barbeiro nao encontrado.", barbeiroIdMetaEl, "barbeiro");
     } catch (error) {
         renderList(barbeiroIdEl, [], formatBarbeiro, "Nenhum barbeiro encontrado para o ID informado.", barbeiroIdMetaEl, "barbeiro");
@@ -488,7 +467,6 @@ bindForm("form-barbeiro-atualizar", async (form) => {
     });
 
     showFeedback("Barbeiro atualizado com sucesso.", "success");
-    showOutput("Barbeiro atualizado", response);
     form.reset();
     await atualizarListaBarbeiros();
 });
@@ -497,7 +475,6 @@ bindForm("form-barbeiro-remover", async (form) => {
     const id = toNumber(readValue(form, "id"), "ID do barbeiro");
     await request(`/barbeiros/${id}`, { method: "DELETE" });
     showFeedback("Barbeiro removido com sucesso.", "success");
-    showOutput("Barbeiro removido", { id, status: "inativado" });
     form.reset();
     await atualizarListaBarbeiros();
 });
@@ -516,7 +493,6 @@ bindForm("form-horario-criar", async (form) => {
     });
 
     showFeedback("Horario cadastrado com sucesso.", "success");
-    showOutput("Horario cadastrado", response);
     form.reset();
 });
 
@@ -530,7 +506,6 @@ bindForm("form-horario-listar", async (form) => {
     });
 
     showFeedback("Horarios disponiveis carregados.", "success");
-    showOutput("Horarios disponiveis", response);
     renderList(horariosListEl, response, formatHorario, "Nenhum horario disponivel encontrado.", horariosListMetaEl, "horario");
 });
 
@@ -549,7 +524,6 @@ bindForm("form-agendamento-criar", async (form) => {
     });
 
     showFeedback("Agendamento criado com sucesso.", "success");
-    showOutput("Agendamento criado", response);
     form.reset();
 });
 
@@ -560,7 +534,6 @@ bindForm("form-agendamento-listar-barbeiro", async (form) => {
     });
 
     showFeedback("Agendamentos do barbeiro carregados.", "success");
-    showOutput("Agendamentos do barbeiro", response);
     renderList(agendamentosListEl, response, formatAgendamento, "Nenhum agendamento encontrado.", agendamentosListMetaEl, "agendamento");
 });
 
@@ -574,7 +547,6 @@ bindForm("form-agendamento-concluir", async (form) => {
     });
 
     showFeedback("Servico concluido com sucesso.", "success");
-    showOutput("Agendamento concluido", response);
     form.reset();
     await atualizarRanking();
 
@@ -597,7 +569,6 @@ bindForm("form-agendamento-cancelar-cliente", async (form) => {
     });
 
     showFeedback("Agendamento cancelado pelo cliente.", "success");
-    showOutput("Agendamento cancelado (cliente)", response);
     form.reset();
 });
 
@@ -611,7 +582,6 @@ bindForm("form-agendamento-cancelar-barbeiro", async (form) => {
     });
 
     showFeedback("Agendamento cancelado pelo barbeiro.", "success");
-    showOutput("Agendamento cancelado (barbeiro)", response);
     form.reset();
 });
 

@@ -30,9 +30,4 @@ public class Barbeiro{
 
     @Column(nullable = false)
     private String senha;
-
-    @Builder.Default
-    @Column(nullable = false)
-    private Boolean ativo = true;
-
 }

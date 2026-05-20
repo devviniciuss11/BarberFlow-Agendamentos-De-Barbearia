@@ -1,4 +1,5 @@
 package com.devflows.barberflow.service;
+
 import com.devflows.barberflow.dto.AgendamentoRequestDTO;
 import com.devflows.barberflow.dto.AgendamentoResponseDTO;
 import com.devflows.barberflow.entity.Agendamento;
@@ -192,10 +193,7 @@ public class AgendamentoService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Telefone do barbeiro deve conter apenas numeros.");
         }
 
-        return barbeiroRepository.findAll()
-                .stream()
-                .filter(b -> b.getTelefone() != null && b.getTelefone().equals(telefoneBarbeiro.trim()))
-                .findFirst()
+        return barbeiroRepository.findByTelefone(telefoneBarbeiro.trim())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Barbeiro nao encontrado com telefone informado."));
     }

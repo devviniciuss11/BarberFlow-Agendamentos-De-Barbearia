@@ -34,4 +34,6 @@ public interface HorarioDisponivelRepository extends JpaRepository<HorarioDispon
             LocalDate data,
             LocalTime hora
     );
+
+    void deleteByBarbeiroId(Long barbeiroId);
 }
