@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -35,6 +36,17 @@ public class HorarioDisponivelService {
         if (dto.hora() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Informe a hora do horario.");
         }
+
+        LocalDateTime dataHoraInformada =
+                LocalDateTime.of(dto.data(), dto.hora());
+
+        if (dataHoraInformada.isBefore(LocalDateTime.now())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Não é permitido cadastrar horários em datas passadas."
+            );
+        }
+
 
         Barbeiro barbeiro = barbeiroRepository.findById(dto.barbeiroid())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Barbeiro nao encontrado."));
